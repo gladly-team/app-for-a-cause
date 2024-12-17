@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
-import "./Tab3.css";
+import "./Dashboard.css";
 
-const Tab3: React.FC = () => {
+interface DashboardProps {
+  userAccessToken: string;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ userAccessToken }) => {
   const router = useIonRouter();
 
   //
@@ -51,14 +55,13 @@ const Tab3: React.FC = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   return (
-    <IonPage>
-      <IonContent fullscreen>
-        <div className="container">
-          <iframe src="https://tab.gladly.io/v5/mobile/dashboard" frameBorder="0" allowFullScreen style={{ width: "100%", height: "100%" }}></iframe>
-        </div>
-      </IonContent>
-    </IonPage>
+    <iframe
+      src={process.env.REACT_APP_SERVER + "/v5/mobile/dashboard?access_token=" + userAccessToken}
+      frameBorder="0"
+      allowFullScreen
+      style={{ width: "100%", height: "100%" }}
+    ></iframe>
   );
 };
 
-export default Tab3;
+export default Dashboard;
