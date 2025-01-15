@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import "./Leaderboard.css";
+import React, { useEffect, useRef, useState } from "react";
 import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
+import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle } from "@ionic/react";
 
 // See if we have a local storage access token
 const userAccessToken = localStorage.getItem("access_token");
@@ -8,6 +10,7 @@ const userAccessToken = localStorage.getItem("access_token");
 
 const Leaderboard: React.FC = () => {
   const router = useIonRouter();
+  const modal = useRef<HTMLIonModalElement>(null);
 
   //
   // Take the user to the dashboard screen.
@@ -34,6 +37,11 @@ const Leaderboard: React.FC = () => {
       // Load the dashboard screen
       case "mobile-screen-dashboard":
         goToDashboard();
+        break;
+
+      // Load the learn levels screen
+      case "mobile-screen-learn-levels":
+        modal.current?.present();
         break;
       default:
         break;
@@ -62,6 +70,17 @@ const Leaderboard: React.FC = () => {
           allowFullScreen
           style={{ width: "100%", height: "100%" }}
         ></iframe>
+
+        <IonModal ref={modal} initialBreakpoint={1} breakpoints={[0, 1]}>
+          <IonContent>
+            <iframe
+              src={process.env.REACT_APP_SERVER + "/v5/mobile/leaderboard-learn-levels?access_token=" + userAccessToken}
+              frameBorder="0"
+              allowFullScreen
+              style={{ width: "100%", height: "100%" }}
+            ></iframe>
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

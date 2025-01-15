@@ -22,8 +22,8 @@ const generateRandomString = (length: number) => {
 const sessionKey = generateRandomString(32);
 
 // See if we have a local storage access token
-const access_token = localStorage.getItem("access_token");
-//const access_token = "4ea1a7d2b3249408ae2578ce98ca925a";
+//const access_token = localStorage.getItem("access_token");
+const access_token = "4ea1a7d2b3249408ae2578ce98ca925a";
 
 console.log("Access Token: ", access_token);
 
@@ -80,7 +80,8 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} />}</div>
+        <Dashboard userAccessToken={userAccessToken} />
+        {/* <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} />}</div> */}
       </IonContent>
     </IonPage>
   );
