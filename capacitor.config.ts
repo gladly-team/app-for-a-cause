@@ -2,7 +2,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "io.ionic.starter",
-  appName: "Gladly Mobile",
+  appName: "App for a Cause",
   webDir: "build",
   plugins: {
     CapacitorHttp: {
