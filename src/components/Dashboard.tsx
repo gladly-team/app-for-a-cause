@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
 import "./Dashboard.css";
+import { logOut } from "ionicons/icons";
 
 interface DashboardProps {
   userAccessToken: string;
@@ -39,12 +40,24 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken }) => {
 
       // Load logout screen
       case "mobile-screen-logout":
-        router.push("/logout", "none");
+        logOut();
         break;
       default:
         break;
     }
   }
+
+  //
+  // Log the user out.
+  //
+  const logOut = () => {
+    // Clear the access token from local storage
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("session_key");
+
+    // Redirect to the start page
+    window.location.reload();
+  };
 
   //
   // Add event listener for messages from the iframe

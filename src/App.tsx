@@ -8,7 +8,6 @@ import Tab2 from "./pages/Tab2";
 import Tab3 from "./pages/Tab3";
 import Leaderboard from "./pages/Leaderboard";
 import Start from "./pages/Start";
-import Logout from "./pages/Logout";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -40,9 +39,6 @@ const App: React.FC = () => (
         </Route>
         <Route path="/leaderboard">
           <Leaderboard />
-        </Route>
-        <Route path="/logout">
-          <Logout />
         </Route>
         <Route exact path="/">
           <Redirect to="/start" />

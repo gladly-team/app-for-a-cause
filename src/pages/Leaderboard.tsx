@@ -6,7 +6,6 @@ import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle } from
 
 // See if we have a local storage access token
 const userAccessToken = localStorage.getItem("access_token");
-//const userAccessToken = "4ea1a7d2b3249408ae2578ce98ca925a";
 
 const Leaderboard: React.FC = () => {
   const router = useIonRouter();

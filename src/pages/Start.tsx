@@ -22,16 +22,24 @@ const sessionKey = generateRandomString(32);
 
 // See if we have a local storage access token
 const access_token = localStorage.getItem("access_token");
-//const access_token = "4ea1a7d2b3249408ae2578ce98ca925a";
 
-console.log("Access Token: ", access_token);
+//console.log("Access Token: ", access_token);
 
 const Home: React.FC = () => {
-  // use a state variable to store if the browser has been closed
   const [userAccessToken, setUserAccessToken] = useState(access_token);
+  const [loginOpen, setLoginOpen] = useState(false);
 
+  //
   // Used to load the auth page
+  //
   const openLoginPage = async () => {
+    if (loginOpen) {
+      return;
+    }
+
+    // Set this so we don't open multiple login pages
+    setLoginOpen(true);
+
     const session_key = localStorage.getItem("session_key");
 
     if (session_key) {
@@ -39,13 +47,14 @@ const Home: React.FC = () => {
 
       // If we have a success we can return because we already have an access token.
       if (success) {
+        setLoginOpen(false);
         return;
       }
     } else {
       localStorage.setItem("session_key", sessionKey);
     }
 
-    let url = process.env.REACT_APP_SERVER + "/v5/login?login_type=mobile&session_key=" + sessionKey;
+    let url = process.env.REACT_APP_SERVER + "/v5/login?login_type=mobile&session_key=" + localStorage.getItem("session_key");
 
     // Used for non-device testing
     if (process.env.REACT_LOGIN_REDIRECT) {
@@ -54,13 +63,28 @@ const Home: React.FC = () => {
 
     // We poll the server to see if the user has logged in yet.
     const interval = setInterval(async () => {
-      const success = await refreshAccessToken(sessionKey);
+      const session_key = localStorage.getItem("session_key");
+
+      if (!session_key) {
+        return;
+      }
+
+      const success = await refreshAccessToken(session_key);
 
       if (success) {
+        setLoginOpen(false);
         clearInterval(interval);
         Browser.close();
+        Browser.removeAllListeners();
       }
     }, 1000);
+
+    // Listen for the browser close event
+    Browser.addListener("browserFinished", () => {
+      setLoginOpen(false);
+      clearInterval(interval);
+      Browser.removeAllListeners();
+    });
 
     // Open the browser and log user in.
     Browser.open({
@@ -70,7 +94,9 @@ const Home: React.FC = () => {
     });
   };
 
+  //
   // Make a request to the server to refresh the access token
+  //
   const refreshAccessToken = async (access_token: string): Promise<boolean> => {
     const options = {
       url: process.env.REACT_APP_SERVER + "/v5/refresh-glady-access-token",
@@ -96,7 +122,9 @@ const Home: React.FC = () => {
     return false;
   };
 
+  //
   // Load this once on the first time the page is loaded
+  //
   useEffect(() => {
     // If we are not logged in we need an access token.
     if (!access_token) {
