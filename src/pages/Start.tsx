@@ -22,8 +22,8 @@ const generateRandomString = (length: number) => {
 const sessionKey = generateRandomString(32);
 
 // See if we have a local storage access token
-//const access_token = localStorage.getItem("access_token");
-const access_token = "4ea1a7d2b3249408ae2578ce98ca925a";
+const access_token = localStorage.getItem("access_token");
+//const access_token = "4ea1a7d2b3249408ae2578ce98ca925a";
 
 console.log("Access Token: ", access_token);
 
@@ -33,9 +33,26 @@ const Home: React.FC = () => {
 
   // Used to load the auth page
   const openLoginPage = async () => {
+    const session_key = localStorage.getItem("session_key");
+
+    if (session_key) {
+      refreshAccessToken(session_key);
+      return;
+    } else {
+      localStorage.setItem("session_key", sessionKey);
+    }
+
+    let url = process.env.REACT_APP_SERVER + "/v5/login?login_type=mobile&session_key=" + sessionKey;
+
+    // Used for non-device testing
+    if (process.env.REACT_LOGIN_REDIRECT) {
+      url = url + "&redirect_uri=http://127.0.0.1:8100/start";
+    }
+
     await Browser.open({
       windowName: "_self",
-      url: process.env.REACT_APP_SERVER + "/v5/login?login_type=mobile&session_key=" + sessionKey,
+      presentationStyle: "popover",
+      url: url,
     });
   };
 
@@ -57,9 +74,13 @@ const Home: React.FC = () => {
     if (access_token_rt) {
       setUserAccessToken(access_token_rt);
       localStorage.setItem("access_token", access_token_rt);
+      localStorage.removeItem("session_key");
     } else {
-      setUserAccessToken("null");
+      setUserAccessToken("");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("session_key");
       alert("Error: Could not login. Please try again.");
+      openLoginPage();
     }
   };
 
@@ -67,6 +88,10 @@ const Home: React.FC = () => {
   Browser.addListener("browserFinished", () => {
     // Make a call to the server to make sure this access token is valid and refresh for a new one.
     refreshAccessToken(sessionKey);
+  });
+
+  Browser.addListener("browserPageLoaded", () => {
+    console.log("Browser Page Loaded");
   });
 
   // Load this once on the first time the page is loaded
@@ -80,8 +105,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <Dashboard userAccessToken={userAccessToken} />
-        {/* <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} />}</div> */}
+        <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} />}</div>
       </IonContent>
     </IonPage>
   );

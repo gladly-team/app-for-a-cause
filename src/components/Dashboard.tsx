@@ -36,6 +36,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken }) => {
       case "mobile-screen-leaderboard":
         goToLeaderboard();
         break;
+
+      // Load logout screen
+      case "mobile-screen-logout":
+        router.push("/logout", "none");
+        break;
       default:
         break;
     }
