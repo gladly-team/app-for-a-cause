@@ -12,6 +12,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken }) => {
   const router = useIonRouter();
 
   //
+  // Take the user to the games screen.
+  //
+  const goToGames = () => {
+    router.push("/games");
+  };
+
+  //
   // Take the user to the leaderboard screen.
   //
   const goToLeaderboard = () => {
@@ -33,6 +40,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken }) => {
 
     // Switch based on which action was sent in.
     switch (event.data.action) {
+      // Load the games screen
+      case "mobile-screen-games":
+        goToGames();
+        break;
+
       // Load the leaderboard screen
       case "mobile-screen-leaderboard":
         goToLeaderboard();
