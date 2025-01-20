@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import Dashboard from "../components/Dashboard";
+import { Browser } from "@capacitor/browser";
 import { CapacitorHttp, HttpResponse } from "@capacitor/core";
 import "./Start.css";
-
-import { Browser } from "@capacitor/browser";
 
 // Function to generate a random string
 const generateRandomString = (length: number) => {
@@ -36,8 +35,12 @@ const Home: React.FC = () => {
     const session_key = localStorage.getItem("session_key");
 
     if (session_key) {
-      refreshAccessToken(session_key);
-      return;
+      const success = await refreshAccessToken(session_key);
+
+      // If we have a success we can return because we already have an access token.
+      if (success) {
+        return;
+      }
     } else {
       localStorage.setItem("session_key", sessionKey);
     }
@@ -49,7 +52,18 @@ const Home: React.FC = () => {
       url = url + "&redirect_uri=http://127.0.0.1:8100/start";
     }
 
-    await Browser.open({
+    // We poll the server to see if the user has logged in yet.
+    const interval = setInterval(async () => {
+      const success = await refreshAccessToken(sessionKey);
+
+      if (success) {
+        clearInterval(interval);
+        Browser.close();
+      }
+    }, 1000);
+
+    // Open the browser and log user in.
+    Browser.open({
       windowName: "_self",
       presentationStyle: "popover",
       url: url,
@@ -57,7 +71,7 @@ const Home: React.FC = () => {
   };
 
   // Make a request to the server to refresh the access token
-  const refreshAccessToken = async (access_token: string) => {
+  const refreshAccessToken = async (access_token: string): Promise<boolean> => {
     const options = {
       url: process.env.REACT_APP_SERVER + "/v5/refresh-glady-access-token",
       headers: {
@@ -71,28 +85,16 @@ const Home: React.FC = () => {
     const access_token_rt = response.data.access_token || null;
 
     // Store access token in local storage.
-    if (access_token_rt) {
+    if (response.status == 200 && access_token_rt) {
       setUserAccessToken(access_token_rt);
       localStorage.setItem("access_token", access_token_rt);
       localStorage.removeItem("session_key");
-    } else {
-      setUserAccessToken("");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("session_key");
-      alert("Error: Could not login. Please try again.");
-      openLoginPage();
+      return true;
     }
+
+    // Means either we have an error or the user is not fully logged in yet.
+    return false;
   };
-
-  // Add a listener to the browserFinished event
-  Browser.addListener("browserFinished", () => {
-    // Make a call to the server to make sure this access token is valid and refresh for a new one.
-    refreshAccessToken(sessionKey);
-  });
-
-  Browser.addListener("browserPageLoaded", () => {
-    console.log("Browser Page Loaded");
-  });
 
   // Load this once on the first time the page is loaded
   useEffect(() => {
