@@ -20,13 +20,8 @@ const generateRandomString = (length: number) => {
 // We use this to connect back up to the backend
 const sessionKey = generateRandomString(32);
 
-// See if we have a local storage access token
-const access_token = localStorage.getItem("access_token");
-
-//console.log("Access Token: ", access_token);
-
 const Home: React.FC = () => {
-  const [userAccessToken, setUserAccessToken] = useState(access_token);
+  const [userAccessToken, setUserAccessToken] = useState(localStorage.getItem("access_token"));
   const [loginOpen, setLoginOpen] = useState(false);
 
   //
@@ -123,11 +118,55 @@ const Home: React.FC = () => {
   };
 
   //
+  // Log the user out.
+  //
+  const logOut = async () => {
+    // Clear the access token from local storage
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("session_key");
+
+    // Clear variables
+    setUserAccessToken(null);
+
+    let url = process.env.REACT_APP_SERVER + "/v5/logout?login_type=mobile&access_token=" + userAccessToken;
+
+    // Used for non-device testing
+    if (process.env.REACT_LOGIN_REDIRECT) {
+      url = url + "&redirect_uri=http://127.0.0.1:8100/start";
+    }
+
+    // Listen for the browser close event
+    Browser.addListener("browserFinished", () => {
+      setTimeout(() => {
+        setLoginOpen(false);
+        openLoginPage();
+      }, 1000);
+    });
+
+    // If after 2 seconds the browser is still open we close it.
+    setTimeout(() => {
+      Browser.close();
+
+      setTimeout(() => {
+        setLoginOpen(false);
+        openLoginPage();
+      }, 1000);
+    }, 2000);
+
+    // Open the browser and log user in.
+    await Browser.open({
+      windowName: "_self",
+      presentationStyle: "popover",
+      url: url,
+    });
+  };
+
+  //
   // Load this once on the first time the page is loaded
   //
   useEffect(() => {
     // If we are not logged in we need an access token.
-    if (!access_token) {
+    if (!userAccessToken) {
       openLoginPage();
     }
   }, []);
@@ -135,35 +174,10 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} />}</div>
+        <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} logOut={logOut} />}</div>
       </IonContent>
     </IonPage>
   );
-
-  // return (
-  //   <IonPage>
-  //     <IonContent fullscreen>
-  //       <div className="container">
-  //         <iframe src={process.env.REACT_APP_SERVER + "/v5/mobile/dashboard"} frameBorder="0" allowFullScreen style={{ width: "100%", height: "100%" }}></iframe>
-  //       </div>
-  //     </IonContent>
-  //   </IonPage>
-  //   // <IonPage>
-  //   //   <IonHeader>
-  //   //     <IonToolbar>
-  //   //       <IonTitle>Blank</IonTitle>
-  //   //     </IonToolbar>
-  //   //   </IonHeader>
-  //   //   <IonContent fullscreen>
-  //   //     <IonHeader collapse="condense">
-  //   //       <IonToolbar>
-  //   //         <IonTitle size="large">Blank</IonTitle>
-  //   //       </IonToolbar>
-  //   //     </IonHeader>
-  //   //     <ExploreContainer name="Tab 1 page" />
-  //   //   </IonContent>
-  //   // </IonPage>
-  // );
 };
 
 export default Home;
