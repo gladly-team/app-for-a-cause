@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useIonRouter, useIonAlert } from "@ionic/react";
+import React, { useEffect, useRef } from "react";
+import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
 
 import "./Dashboard.css";
@@ -11,6 +11,7 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const router = useIonRouter();
+  const modal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
 
   //
@@ -78,10 +79,26 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
         goToLeaderboard();
         break;
 
+      // Load the change cause screen
+      case "mobile-screen-change-cause":
+        alert("mobile-screen-change-cause");
+        break;
+
+      // Load the mobile screen get tab desktop screen
+      case "mobile-screen-get-tab-desktop":
+        alert("mobile-screen-get-tab-desktop");
+        break;
+
+      // Load the mobile settings screen
+      case "mobile-screen-settings":
+        modal.current?.present();
+        break;
+
       // Load logout screen
       case "mobile-screen-logout":
         logOut();
         break;
+
       default:
         break;
     }
@@ -122,12 +139,29 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   }, []); // Empty dependency array ensures this runs only once
 
   return (
-    <iframe
-      src={process.env.REACT_APP_SERVER + "/v5/mobile/dashboard?access_token=" + userAccessToken}
-      frameBorder="0"
-      allowFullScreen
-      style={{ width: "100%", height: "100%" }}
-    ></iframe>
+    <>
+      <iframe
+        src={process.env.REACT_APP_SERVER + "/v5/mobile/dashboard?access_token=" + userAccessToken}
+        frameBorder="0"
+        allowFullScreen
+        style={{ width: "100%", height: "100%" }}
+      ></iframe>
+
+      <IonModal ref={modal} initialBreakpoint={1} breakpoints={[0, 1]} className="settings-modal">
+        <IonContent>
+          {userAccessToken ? (
+            <iframe
+              src={process.env.REACT_APP_SERVER + "/v5/mobile/settings?access_token=" + userAccessToken}
+              frameBorder="0"
+              allowFullScreen
+              style={{ width: "100%", height: "100%" }}
+            ></iframe>
+          ) : (
+            "<p>Error: No Access Token. Please kill app and restart.</p>"
+          )}
+        </IonContent>
+      </IonModal>
+    </>
   );
 };
 

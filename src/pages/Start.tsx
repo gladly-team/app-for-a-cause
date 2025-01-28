@@ -165,6 +165,7 @@ const Home: React.FC = () => {
   // Load this once on the first time the page is loaded
   //
   useEffect(() => {
+    console.log(userAccessToken);
     // If we are not logged in we need an access token.
     if (!userAccessToken) {
       openLoginPage();
