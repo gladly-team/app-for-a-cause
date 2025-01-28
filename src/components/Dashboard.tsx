@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useIonRouter } from "@ionic/react";
+import { useIonRouter, useIonAlert } from "@ionic/react";
+import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
+
 import "./Dashboard.css";
-import { Browser } from "@capacitor/browser";
 
 interface DashboardProps {
   logOut: () => void;
@@ -10,6 +11,7 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const router = useIonRouter();
+  const [presentAlert] = useIonAlert();
 
   //
   // Take the user to the games screen.
@@ -23,6 +25,27 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   //
   const goToLeaderboard = () => {
     router.push("/leaderboard");
+  };
+
+  //
+  // This is called when the user clicks on the reward ad button.
+  //
+  const loadRewardAd = async () => {
+    await AdMob.initialize({
+      testingDevices: [], // Test device ID
+      initializeForTesting: true,
+    });
+
+    // ca-app-pub-3940256099942544/5224354917 always test https://developers.google.com/admob/android/rewarded
+    // ca-app-pub-1918626353776886/7648248705 ios ad unit id
+    // ca-app-pub-1918626353776886/3338302755 android ad unit id
+
+    const options: RewardAdOptions = {
+      adId: "ca-app-pub-3940256099942544/5224354917",
+    };
+
+    await AdMob.prepareRewardVideoAd(options);
+    await AdMob.showRewardVideoAd();
   };
 
   //
@@ -40,6 +63,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
 
     // Switch based on which action was sent in.
     switch (event.data.action) {
+      // Load the reward ad screen
+      case "mobile-screen-reward-ad":
+        loadRewardAd();
+        break;
+
       // Load the games screen
       case "mobile-screen-games":
         goToGames();
@@ -65,6 +93,27 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   useEffect(() => {
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
+
+    AdMob.addListener(RewardAdPluginEvents.FailedToLoad, (error: AdMobError) => {
+      // Subscribe prepared rewardVideo
+      console.log("Failed to Loaded:", error);
+
+      presentAlert({
+        header: "Ad Load Failed",
+        message: "There are no ads at this time. Please try again later.",
+        buttons: ["OK"],
+      });
+    });
+
+    AdMob.addListener(RewardAdPluginEvents.Loaded, (info: AdLoadInfo) => {
+      // Subscribe prepared rewardVideo
+      console.log("Loaded:", info);
+    });
+
+    AdMob.addListener(RewardAdPluginEvents.Rewarded, (rewardItem: AdMobRewardItem) => {
+      // Subscribe user rewarded
+      console.log("Rewarded", rewardItem);
+    });
 
     // Cleanup the event listener when the component unmounts
     return () => {

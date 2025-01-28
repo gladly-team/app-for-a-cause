@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<true />
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -42,6 +42,19 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<true />
+	<key>GADIsAdManagerApp</key>
+	<true />
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1918626353776886~5864130414</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+  	<dict>
+    	<key>SKAdNetworkIdentifier</key>
+    	<string>cstr6suwn9.skadnetwork</string>
+  	</dict>
+	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>[Why you use NSUserTracking. ex: This identifier will be used to deliver personalized ads to you.]</string>
 </dict>
 </plist>
