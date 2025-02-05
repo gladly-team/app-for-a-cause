@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
+import { Capacitor } from "@capacitor/core";
 
 import "./Dashboard.css";
 
@@ -9,10 +10,37 @@ interface DashboardProps {
   userAccessToken: string;
 }
 
+AdMob.initialize({
+  testingDevices: [], // Test device ID
+  initializeForTesting: true,
+});
+
+// ca-app-pub-3940256099942544/5224354917 always test https://developers.google.com/admob/android/rewarded
+// ca-app-pub-1918626353776886/7648248705 ios ad unit id
+// ca-app-pub-1918626353776886/3338302755 android ad unit id
+
+const options: RewardAdOptions = {
+  adId: "ca-app-pub-3940256099942544/5224354917",
+};
+
+AdMob.prepareRewardVideoAd(options);
+
 const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
+
+  //
+  // Returns the mobile OS
+  //
+  const getMobileOS = () => {
+    if (Capacitor.getPlatform() === "android") {
+      return "android";
+    } else if (Capacitor.getPlatform() === "ios") {
+      return "ios";
+    }
+    return "unknown";
+  };
 
   //
   // Take the user to the games screen.
@@ -32,20 +60,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   // This is called when the user clicks on the reward ad button.
   //
   const loadRewardAd = async () => {
-    await AdMob.initialize({
-      testingDevices: [], // Test device ID
-      initializeForTesting: true,
-    });
-
-    // ca-app-pub-3940256099942544/5224354917 always test https://developers.google.com/admob/android/rewarded
-    // ca-app-pub-1918626353776886/7648248705 ios ad unit id
-    // ca-app-pub-1918626353776886/3338302755 android ad unit id
-
-    const options: RewardAdOptions = {
-      adId: "ca-app-pub-3940256099942544/5224354917",
-    };
-
-    await AdMob.prepareRewardVideoAd(options);
     await AdMob.showRewardVideoAd();
   };
 
@@ -138,10 +152,12 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
     };
   }, []); // Empty dependency array ensures this runs only once
 
+  console.log(`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`);
+
   return (
     <>
       <iframe
-        src={process.env.REACT_APP_SERVER + "/v5/mobile/dashboard?access_token=" + userAccessToken}
+        src={`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`}
         frameBorder="0"
         allowFullScreen
         style={{ width: "100%", height: "100%" }}
@@ -151,7 +167,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
         <IonContent>
           {userAccessToken ? (
             <iframe
-              src={process.env.REACT_APP_SERVER + "/v5/mobile/settings?access_token=" + userAccessToken}
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/settings?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`}
               frameBorder="0"
               allowFullScreen
               style={{ width: "100%", height: "100%" }}

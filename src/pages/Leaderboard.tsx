@@ -3,11 +3,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle } from "@ionic/react";
+import { Capacitor } from "@capacitor/core";
 
 const Leaderboard: React.FC = () => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
   const [userAccessToken, setUserAccessToken] = useState(localStorage.getItem("access_token"));
+
+  //
+  // Returns the mobile OS
+  //
+  const getMobileOS = () => {
+    if (Capacitor.getPlatform() === "android") {
+      return "android";
+    } else if (Capacitor.getPlatform() === "ios") {
+      return "ios";
+    }
+    return "unknown";
+  };
 
   //
   // Take the user to the dashboard screen.
@@ -67,7 +80,7 @@ const Leaderboard: React.FC = () => {
       <IonContent fullscreen>
         {userAccessToken ? (
           <iframe
-            src={process.env.REACT_APP_SERVER + "/v5/mobile/leaderboard?access_token=" + userAccessToken}
+            src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`}
             frameBorder="0"
             allowFullScreen
             style={{ width: "100%", height: "100%" }}
@@ -80,7 +93,7 @@ const Leaderboard: React.FC = () => {
           <IonContent>
             {userAccessToken ? (
               <iframe
-                src={process.env.REACT_APP_SERVER + "/v5/mobile/leaderboard-learn-levels?access_token=" + userAccessToken}
+                src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard-learn-levels?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`}
                 frameBorder="0"
                 allowFullScreen
                 style={{ width: "100%", height: "100%" }}
