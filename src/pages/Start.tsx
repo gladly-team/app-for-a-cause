@@ -7,19 +7,29 @@ import { getAccessToken, initializeFirebase, signOut } from "../services/firebas
 import "./Start.css";
 
 const Home: React.FC = () => {
+  console.log("In Start");
+
   const router = useIonRouter();
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+
+  //
+  // Take the user to the auth screen.
+  //
+  const goToAuth = () => {
+    console.log("goToAuth");
+    router.push("/auth", "forward", "replace");
+  };
 
   //
   // Sign the user out
   //
   const logOut = async () => {
     try {
-      await SplashScreen.show();
       await signOut();
+      setIsLoading(true);
       setUserAccessToken(undefined);
-      router.push("/auth", "forward", "replace");
+      goToAuth();
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -36,14 +46,14 @@ const Home: React.FC = () => {
       console.log("Access Token:", token);
 
       if (!token) {
-        router.push("/auth", "forward", "replace");
+        goToAuth();
       } else {
         // Hide the splash
         await SplashScreen.hide();
       }
     } catch (error) {
       console.error("Auth check error:", error);
-      router.push("/auth", "forward", "replace");
+      goToAuth();
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +86,7 @@ const Home: React.FC = () => {
       } catch (error) {
         console.error("Init error:", error);
         setIsLoading(false);
-        router.push("/auth", "back", "replace");
+        goToAuth();
       }
     };
 
@@ -98,7 +108,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="container">{!userAccessToken ? <p>Loading...</p> : <Dashboard userAccessToken={userAccessToken} logOut={logOut} />}</div>
+        <div className="container">{!userAccessToken ? <p>No Access Token</p> : <Dashboard userAccessToken={userAccessToken} logOut={logOut} />}</div>
       </IonContent>
     </IonPage>
   );

@@ -5,6 +5,8 @@ import { getAccessToken, initializeFirebase, hasUser } from "../services/firebas
 import { useIonRouter, useIonAlert, IonContent, IonPage } from "@ionic/react";
 
 const Auth: React.FC = () => {
+  console.log("In Auth");
+
   const router = useIonRouter();
   const [presentAlert] = useIonAlert();
   const [email, setEmail] = useState("me@spicer.cc");
@@ -165,9 +167,10 @@ const Auth: React.FC = () => {
         const isLoggedIn = await hasUser();
 
         if (isLoggedIn) {
-          router.push("/start", "back");
+          console.log("User is already logged in.");
+          goToDashboard();
         } else {
-          // Hide the splash
+          console.log("User is not logged in.");
           await SplashScreen.hide();
         }
       } catch (error) {
@@ -181,7 +184,7 @@ const Auth: React.FC = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   if (isCheckingSession) {
-    return null;
+    return <p>Checking Session...</p>;
   }
 
   return <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/login`} width="100%" height="100%" frameBorder="0"></iframe>;
