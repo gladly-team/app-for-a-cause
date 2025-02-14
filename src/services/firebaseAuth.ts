@@ -12,7 +12,7 @@ let initializationError: Error | null = null;
 //
 export const hasUser = async (): Promise<boolean> => {
   try {
-    if (!isPlatform("capacitor")) {
+    if (!isPlatform("ios") && !isPlatform("android")) {
       // For web platform, wait for Firebase to initialize first
       if (!isFirebaseInitialized) {
         await initializeFirebase();
@@ -59,7 +59,7 @@ export const getAccessToken = async (): Promise<string | undefined> => {
     await initializeFirebase();
   }
 
-  if (!isPlatform("capacitor")) {
+  if (!isPlatform("ios") && !isPlatform("android")) {
     // For web platform, wait for auth state if needed
     const auth = getAuth();
     if (!auth.currentUser) {
@@ -105,8 +105,8 @@ export const initializeFirebase = async () => {
   }
 
   try {
-    if (isPlatform("capacitor")) {
-      console.log("Initializing Firebase for Capacitor platform");
+    if (isPlatform("ios") || isPlatform("android")) {
+      console.log("Initializing Firebase for IOS or Android platforms");
       await FirebaseAuthentication.addListener("authStateChange", (change) => {
         authInitialized = true;
       });

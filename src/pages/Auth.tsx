@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { SplashScreen } from "@capacitor/splash-screen";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { getAccessToken, initializeFirebase, hasUser } from "../services/firebaseAuth";
 import { useIonRouter, useIonAlert, IonContent, IonPage } from "@ionic/react";
@@ -165,6 +166,9 @@ const Auth: React.FC = () => {
 
         if (isLoggedIn) {
           router.push("/start", "back");
+        } else {
+          // Hide the splash
+          await SplashScreen.hide();
         }
       } catch (error) {
         console.error("Error during session check:", error);
@@ -177,15 +181,7 @@ const Auth: React.FC = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   if (isCheckingSession) {
-    return (
-      <IonPage>
-        <IonContent>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-            <p>Loading...</p>
-          </div>
-        </IonContent>
-      </IonPage>
-    );
+    return null;
   }
 
   return <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/login`} width="100%" height="100%" frameBorder="0"></iframe>;

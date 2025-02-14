@@ -4,13 +4,12 @@ import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
+import { getAccessToken } from "../services/firebaseAuth";
 
-// See if we have a local storage access token
-const userAccessToken = localStorage.getItem("access_token");
-
-const Leaderboard: React.FC = () => {
+const Games: React.FC = () => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
+  const [accessToken, setAccessToken] = useState<string | undefined>();
 
   //
   // Take the user to the dashboard screen.
@@ -50,6 +49,13 @@ const Leaderboard: React.FC = () => {
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
 
+    // Get the Firebase access token
+    const fetchToken = async () => {
+      const token = await getAccessToken();
+      setAccessToken(token);
+    };
+    fetchToken();
+
     // Cleanup the event listener when the component unmounts
     return () => {
       window.removeEventListener("message", receiveMessage);
@@ -69,15 +75,19 @@ const Leaderboard: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <iframe
-          src={process.env.REACT_APP_SERVER + "/v5/mobile/games?access_token=" + userAccessToken}
-          frameBorder="0"
-          allowFullScreen
-          style={{ width: "100%", height: "100%" }}
-        ></iframe>
+        {accessToken ? (
+          <iframe
+            src={`${process.env.REACT_APP_SERVER}/v5/mobile/games?access_token=${accessToken}`}
+            frameBorder="0"
+            allowFullScreen
+            style={{ width: "100%", height: "100%" }}
+          ></iframe>
+        ) : (
+          <p>Loading...</p>
+        )}
       </IonContent>
     </IonPage>
   );
 };
 
-export default Leaderboard;
+export default Games;

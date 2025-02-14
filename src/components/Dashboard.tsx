@@ -15,6 +15,9 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
 
+  //
+  // Get the user's mobile OS
+  //
   const getMobileOS = () => {
     if (Capacitor.getPlatform() === "android") {
       return "android";

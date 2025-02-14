@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -34,9 +34,9 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1918626353776886~5864130414</string>
 	<key>GADIsAdManagerApp</key>
-	<true/>
+	<true />
 	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<true />
 	<key>NSUserTrackingUsageDescription</key>
 	<string>[Why you use NSUserTracking. ex: This identifier will be used to deliver personalized ads to you.]</string>
 	<key>SKAdNetworkItems</key>
@@ -66,6 +66,11 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<true />
+	<key>NSAppTransportSecurity</key>
+	<dict>
+    	<key>NSAllowsArbitraryLoads</key>
+    	<true />
+	</dict>
 </dict>
 </plist>
