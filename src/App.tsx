@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
+import Auth from "./pages/Auth";
 import Start from "./pages/Start";
 import Games from "./pages/Games";
 import Leaderboard from "./pages/Leaderboard";
@@ -31,6 +32,9 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route exact path="/auth">
+          <Auth />
+        </Route>
         <Route exact path="/start">
           <Start />
         </Route>
@@ -41,7 +45,7 @@ const App: React.FC = () => (
           <Leaderboard />
         </Route>
         <Route exact path="/">
-          <Redirect to="/start" />
+          <Redirect to="/auth" />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

@@ -1,0 +1,118 @@
+/* ------------------------------------------------------------ *\
+	Tailwind CSS
+\* ------------------------------------------------------------ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+	html {
+		@apply text-normal;
+	}
+
+	body {
+		@apply text-normal text-black leading-normal antialiased;
+	}
+
+	h1 {
+		@apply text-5xl leading-[1.14] font-black text-purple-1;
+	}
+
+	h3 {
+		@apply text-1.125xl leading-[1.16] font-black text-black;
+	}
+
+	h4 {
+		@apply text-1.125xl leading-[1.16] font-bold text-purple-1;
+	}
+
+	h5 {
+		@apply text-1xl font-black text-black leading-lg;
+	}
+
+	h6 {
+		@apply text-sm font-medium text-blue-light-3 leading-lg;
+	}
+
+	p {
+		@apply text-inherit leading-inherit;
+	}
+
+	blockquote {
+		@apply text-1.125xl leading-[1.16] font-black;
+	}
+
+	p a {
+		@apply underline hover:no-underline;
+	}
+
+    .button-blue-type {
+        @apply text-sm font-medium h-10	rounded-3xl py-2 px-4 bg-blue-light-2 text-blue-light-3 inline-flex items-center justify-center tracking-base;
+    }
+
+	.button-pink-type {
+        @apply inline-block h-10 flex justify-center items-center rounded-3xl py-2 px-4 bg-pink-1-20 w-full;
+	}
+
+	.button-red-type {
+        @apply inline-block h-10 flex justify-center items-center rounded-3xl py-2 px-4 bg-red-1-20 w-full;
+	}
+
+	.btn-google {
+        @apply text-gray h-12 text-1xl inline-flex py-3 w-full items-center justify-center shadow-xs rounded font-bold;
+	}
+
+	.btn-facebook {
+        @apply bg-blue-fb h-12 text-white text-1xl inline-flex py-3 w-full items-center justify-center shadow-xs rounded font-bold -tracking-normal;
+	}
+
+	.btn-mail {
+        @apply bg-red-mail h-12 text-white text-1xl inline-flex py-3 w-full items-center justify-center shadow-xs rounded font-bold -tracking-normal;
+	}
+
+	.btn-apple {
+        @apply bg-black h-12 text-white text-1xl inline-flex py-3 w-full items-center justify-center shadow-xs rounded font-bold -tracking-normal;
+	}
+
+	.btn-confirm {
+		@apply bg-purple-1 h-10 text-white text-sm inline-flex py-1 w-full items-center justify-center shadow-xs rounded-full font-bold tracking-base;
+	}
+
+	.btn-confirm span {
+		@apply mr-2;
+	}
+
+	.btn-confirm i {
+		@apply size-6 bg-check-active;
+	}
+
+	.btn-confirm.disabled {
+		@apply text-gray-c2 bg-gray-c3 pointer-events-none;
+	}
+
+	.btn-confirm.disabled i {
+		@apply bg-check-disabled;
+	}
+
+	.btn-icons {
+		@apply flex items-center tracking-wide;
+	}
+
+	.btn-icons i:first-child {
+		@apply mr-4;
+	}
+
+	.btn-icons i:last-child {
+		@apply ml-auto;
+	}
+
+	strong {
+		@apply font-semibold;
+	}
+
+	.absolute-center {
+		@apply absolute top-2/4	left-2/4 -translate-y-2/4 -translate-x-2/4;
+	}
+}

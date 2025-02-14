@@ -24,6 +24,8 @@ const Home: React.FC = () => {
   const [userAccessToken, setUserAccessToken] = useState(localStorage.getItem("access_token"));
   const [loginOpen, setLoginOpen] = useState(false);
 
+  const url = process.env.REACT_APP_SERVER + "/v5/login?login_type=mobile&session_key=" + localStorage.getItem("session_key");
+
   //
   // Used to load the auth page
   //
@@ -61,21 +63,25 @@ const Home: React.FC = () => {
       const session_key = localStorage.getItem("session_key");
 
       if (!session_key) {
+        console.log("SPICER - Session Key not found");
         return;
       }
 
-      const success = await refreshAccessToken(session_key);
+      console.log("SPICER - Start");
+      //const success = await refreshAccessToken(session_key);
+      console.log("SPICER - End");
 
-      if (success) {
-        setLoginOpen(false);
-        clearInterval(interval);
-        Browser.close();
-        Browser.removeAllListeners();
-      }
+      // if (success) {
+      //   setLoginOpen(false);
+      //   clearInterval(interval);
+      //   Browser.close();
+      //   Browser.removeAllListeners();
+      // }
     }, 1000);
 
     // Listen for the browser close event
     Browser.addListener("browserFinished", () => {
+      console.log("SPICER - Browser Finished");
       setLoginOpen(false);
       clearInterval(interval);
       Browser.removeAllListeners();
@@ -104,6 +110,8 @@ const Home: React.FC = () => {
 
     const response: HttpResponse = await CapacitorHttp.post(options);
     const access_token_rt = response.data.access_token || null;
+
+    console.log("SPICER", response.status);
 
     // Store access token in local storage.
     if (response.status == 200 && access_token_rt) {
@@ -165,19 +173,20 @@ const Home: React.FC = () => {
   // Load this once on the first time the page is loaded
   //
   useEffect(() => {
-    console.log(userAccessToken);
-    // If we are not logged in we need an access token.
-    if (!userAccessToken) {
-      openLoginPage();
-    }
+    // console.log(userAccessToken);
+    // // If we are not logged in we need an access token.
+    // if (!userAccessToken) {
+    //   openLoginPage();
+    // }
   }, []);
 
   return (
-    <IonPage>
-      <IonContent fullscreen>
-        <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} logOut={logOut} />}</div>
-      </IonContent>
-    </IonPage>
+    <iframe src={url} width="100%" height="100%" frameBorder="0"></iframe>
+    // <IonPage>
+    //   <IonContent fullscreen>
+    //     <div className="container">{!userAccessToken ? <p>Loading....</p> : <Dashboard userAccessToken={userAccessToken} logOut={logOut} />}</div>
+    //   </IonContent>
+    // </IonPage>
   );
 };
 

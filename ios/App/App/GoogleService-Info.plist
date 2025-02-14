@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>265155358643-hmdpdmmd2l05nnjbhvgdh8ei5cqmthth.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.265155358643-hmdpdmmd2l05nnjbhvgdh8ei5cqmthth</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>265155358643-oahtc3ooc5or555rkomdsjjgh54uvjkv.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDI1cc3TMo6qQYpebzzjGp-Gr4SuZfrpSA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>265155358643</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>io.gladly.appforacause</string>
+	<key>PROJECT_ID</key>
+	<string>tab-for-a-cause</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tab-for-a-cause.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:265155358643:ios:755057aa3dc0c5c4d6a5c6</string>
+	<key>DATABASE_URL</key>
+	<string>https://tab-for-a-cause.firebaseio.com</string>
+</dict>
+</plist>

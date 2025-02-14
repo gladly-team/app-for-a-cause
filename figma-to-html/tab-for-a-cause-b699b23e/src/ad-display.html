@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> head }}
+<body>
+	<div class="pt-14 fixed top-0 left-0 w-dvw h-dvh overflow-y-auto bg-white">
+		<div class="pb-3.5">
+			<div class="pt-3 pb-2">
+				<div class="container">
+                    <div class="flex justify-between items-center">
+                        <a href="" class="flex items-center text-1.5xl font-bold text-blue-light-3">
+                            <i class="mr-2">
+                                <img src="assets/images/svg/close.svg" alt=""/>
+                            </i>
+    
+                            <span>Watch and earn</span>
+                        </a>
+
+                        <div>
+                            <div class="w-26 h-26 text-sm font-bold text-blue-light-3 loader relative">
+                                <div class="circle w-full h-full rounded-50per">
+                                    <svg width="26" height="26" class="absolute top-0 left-0 -rotate-90">
+                                        <circle cx="13" cy="13" r="12" stroke-width="2" fill="none" class="stroke-blue-light-3-30"></circle>
+                                        <circle cx="13" cy="13" r="12" stroke-width="2" fill="none" class="stroke-blue-light-3 origin-center rotate-45 animate-fillCircleReverse"></circle>
+                                    </svg>
+    
+                                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">8</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+			<div class="py-4 pb-2 text-sm leading-xl">
+				<div class="container">
+					<p>We don’t have a video ad right now, but keep this page open for 10 seconds, to get 10 impact points toward [cause].</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="pb-10">
+            <div class="container">
+                <div>
+                    <div class="mb-6">
+                        <img src="assets/images/temp/display-ad-img1.jpg" alt=""/>
+                    </div>
+    
+                    <div>
+                        <img src="assets/images/temp/display-ad-img2.jpg" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+
+	{{> scripts }}
+</body>
+</html>

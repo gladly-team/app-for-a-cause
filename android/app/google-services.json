@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "265155358643",
+    "firebase_url": "https://tab-for-a-cause.firebaseio.com",
+    "project_id": "tab-for-a-cause",
+    "storage_bucket": "tab-for-a-cause.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265155358643:android:2bfcddf3cbee958ad6a5c6",
+        "android_client_info": {
+          "package_name": "io.gladly.appforacause"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265155358643-oahtc3ooc5or555rkomdsjjgh54uvjkv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.gladly.appforacause",
+            "certificate_hash": "f23c511eb576726828631179944580d8245fb389"
+          }
+        },
+        {
+          "client_id": "265155358643-9pu98n2kulhl6gacnts4nebua7iqaboo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuLTMrhqAYmSVVGeaMn1NHI9uiJ71bfXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265155358643-9pu98n2kulhl6gacnts4nebua7iqaboo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

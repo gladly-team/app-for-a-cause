@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">App for a Cause</string>
     <string name="title_activity_main">App for a Cause</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">io.gladly.appforacause</string>
+    <string name="custom_url_scheme">io.gladly.appforacause</string>
     <string name="admob_app_id">ca-app-pub-1918626353776886~3062970581</string>
 </resources>

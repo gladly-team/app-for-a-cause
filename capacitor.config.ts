@@ -1,12 +1,16 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "io.ionic.starter",
+  appId: "io.gladly.appforacause",
   appName: "App for a Cause",
   webDir: "build",
   plugins: {
     CapacitorHttp: {
       enabled: true,
+    },
+    FirebaseAuthentication: {
+      skipNativeAuth: false,
+      providers: ["google.com", "apple.com"],
     },
     SplashScreen: {
       launchShowDuration: 3000,
