@@ -17,7 +17,7 @@ const Auth: React.FC = () => {
   // Take the user to the dashboard screen.
   //
   const goToDashboard = () => {
-    router.push("/start", "forward", "replace");
+    router.push("/start", "forward", "pop");
   };
 
   //
