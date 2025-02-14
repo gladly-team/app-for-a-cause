@@ -10,6 +10,9 @@ interface AuthProps {
 const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   const [presentAlert] = useIonAlert();
 
+  //
+  // Load Google Sign In.
+  //
   const googleSignIn = async () => {
     const result = await FirebaseAuthentication.signInWithGoogle();
     const user = result.user;
@@ -54,6 +57,9 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     }
   };
 
+  //
+  // Receive messages from the webserver Web View
+  //
   function receiveMessage(event: any) {
     if (typeof event.data.action === "undefined") return;
 
@@ -61,22 +67,29 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       case "mobile-login-google":
         googleSignIn();
         break;
+
       case "mobile-login-facebook":
         alert("Login with Facebook");
         break;
+
       case "mobile-login-email":
         if (event.data.email) {
           emailSignIn(event.data.email);
         }
         break;
+
       case "mobile-login-apple":
         appleSignIn();
         break;
+
       default:
         break;
     }
   }
 
+  //
+  // Load on component load.
+  //
   useEffect(() => {
     window.addEventListener("message", receiveMessage, false);
     return () => {

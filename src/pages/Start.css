@@ -5,3 +5,15 @@
   justify-content: center;
   height: 100%;
 }
+
+.fade-component {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-component.visible {
+  opacity: 1;
+}

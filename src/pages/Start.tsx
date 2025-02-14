@@ -7,21 +7,31 @@ import { getAccessToken, initializeFirebase, signOut } from "../services/firebas
 import "./Start.css";
 
 const Start: React.FC = () => {
-  const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
 
+  //
+  // Log user out.
+  //
   const logOut = async () => {
+    setIsTransitioning(true);
     try {
       await signOut();
       setUserAccessToken(undefined);
     } catch (error) {
       console.error("Logout error:", error);
     }
+    setTimeout(() => setIsTransitioning(false), 50);
   };
 
+  //
+  // Check if a user is logged in.
+  //
   const checkAuthStatus = async () => {
     try {
       const token = await getAccessToken();
+      setIsTransitioning(true);
       setUserAccessToken(token);
 
       if (token) {
@@ -32,9 +42,13 @@ const Start: React.FC = () => {
       setUserAccessToken(undefined);
     } finally {
       setIsLoading(false);
+      setTimeout(() => setIsTransitioning(false), 50);
     }
   };
 
+  //
+  // Run on page Load.
+  //
   useEffect(() => {
     const initAuth = async () => {
       try {
@@ -61,7 +75,17 @@ const Start: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="container">{!userAccessToken ? <Auth onAuthSuccess={checkAuthStatus} /> : <Dashboard userAccessToken={userAccessToken} logOut={logOut} />}</div>
+        <div className="container">
+          {!userAccessToken ? (
+            <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+              <Auth onAuthSuccess={checkAuthStatus} />
+            </div>
+          ) : (
+            <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+              <Dashboard userAccessToken={userAccessToken} logOut={logOut} />
+            </div>
+          )}
+        </div>
       </IonContent>
     </IonPage>
   );
