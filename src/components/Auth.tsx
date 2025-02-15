@@ -22,13 +22,26 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     }
   };
 
+  //
+  // Load Facebook Sign In.
+  //
+  const facebookSignIn = async () => {
+    const result = await FirebaseAuthentication.signInWithFacebook();
+    const user = result.user;
+    const credential = result.credential;
+    if (user && credential) {
+      onAuthSuccess();
+    }
+  };
+
+  //
+  // Load Apple Sign In.
+  //
   const appleSignIn = async () => {
     const result = await FirebaseAuthentication.signInWithApple();
     const user = result.user;
     const credential = result.credential;
     if (user && credential) {
-      console.log("Login successful", user.uid, user.email, credential.accessToken);
-      console.log(await getAccessToken());
       onAuthSuccess();
     }
   };
@@ -69,7 +82,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         break;
 
       case "mobile-login-facebook":
-        alert("Login with Facebook");
+        facebookSignIn();
         break;
 
       case "mobile-login-email":

@@ -26,6 +26,11 @@ PODS:
     - Capacitor
     - CapacitorFirebaseAuthentication/Lite (= 7.0.0)
     - FirebaseAuth (~> 11.7.0)
+  - CapacitorFirebaseAuthentication/Facebook (7.0.0):
+    - Capacitor
+    - FBSDKCoreKit (= 18.0.0)
+    - FBSDKLoginKit (= 18.0.0)
+    - FirebaseAuth (~> 11.7.0)
   - CapacitorFirebaseAuthentication/Google (7.0.0):
     - Capacitor
     - FirebaseAuth (~> 11.7.0)
@@ -41,6 +46,14 @@ PODS:
     - Capacitor
   - CapacitorStatusBar (7.0.0):
     - Capacitor
+  - FBAEMKit (18.0.0):
+    - FBSDKCoreKit_Basics (= 18.0.0)
+  - FBSDKCoreKit (18.0.0):
+    - FBAEMKit (= 18.0.0)
+    - FBSDKCoreKit_Basics (= 18.0.0)
+  - FBSDKCoreKit_Basics (18.0.0)
+  - FBSDKLoginKit (18.0.0):
+    - FBSDKCoreKit (= 18.0.0)
   - FirebaseAppCheck (11.7.0):
     - AppCheckCore (~> 11.0)
     - FirebaseAppCheckInterop (~> 11.0)
@@ -112,6 +125,7 @@ DEPENDENCIES:
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorFirebaseAppCheck (from `../../node_modules/@capacitor-firebase/app-check`)"
   - "CapacitorFirebaseAuthentication (from `../../node_modules/@capacitor-firebase/authentication`)"
+  - "CapacitorFirebaseAuthentication/Facebook (from `../../node_modules/@capacitor-firebase/authentication`)"
   - "CapacitorFirebaseAuthentication/Google (from `../../node_modules/@capacitor-firebase/authentication`)"
   - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
@@ -122,6 +136,10 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - AppCheckCore
+    - FBAEMKit
+    - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
+    - FBSDKLoginKit
     - FirebaseAppCheck
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -176,6 +194,10 @@ SPEC CHECKSUMS:
   CapacitorKeyboard: 4db71e694e7afb5d7c0be09b05495c19f7d6c914
   CapacitorSplashScreen: 7e7a0a1113833032f196b3af6fa437baccacf5bc
   CapacitorStatusBar: a8c4c83ed2e973bdafb979e80e4b00d027832cb7
+  FBAEMKit: e34530df538b8eb8aeb53c35867715ba6c63ef0c
+  FBSDKCoreKit: d3f479a69127acebb1c6aad91c1a33907bcf6c2f
+  FBSDKCoreKit_Basics: 017b6dc2a1862024815a8229e75661e627ac1e29
+  FBSDKLoginKit: 5875762d1fe09ddcb05d03365d4f5dc34413843d
   FirebaseAppCheck: 2bd832b48faa38f7d86f902c57f78af93eae4cdc
   FirebaseAppCheckInterop: 7bf86d55a2b7e9bd91464120eba3e52e4b63b2e2
   FirebaseAuth: 77e25aa24f3e1c626c5babd3338551fc1669ee0e
@@ -192,6 +214,6 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
 
-PODFILE CHECKSUM: dde3ec3a015ea86cf518314c63f5b0e9f97d7b9b
+PODFILE CHECKSUM: 601ba5af656f6d6b03652301f4af01d7e7b38a9e
 
 COCOAPODS: 1.16.2

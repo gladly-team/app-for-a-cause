@@ -60,10 +60,6 @@ export const getAccessToken = async (): Promise<string | undefined> => {
     await initializeFirebase();
   }
 
-  // const setTokenAutoRefreshEnabled = async () => {
-  //   await FirebaseAppCheck.setTokenAutoRefreshEnabled({ enabled: true });
-  // };
-
   // Capacitor.getPlatform()
   if (!isPlatform("ios") && !isPlatform("android")) {
     // For web platform, wait for auth state if needed
@@ -118,6 +114,7 @@ export const initializeFirebase = async () => {
         authInitialized = true;
       });
 
+      // Set this so the user does not get auto logged out when the app is backgrounded.
       await FirebaseAppCheck.setTokenAutoRefreshEnabled({ enabled: true });
 
       // Verify initialization worked
