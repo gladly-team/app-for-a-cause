@@ -34,9 +34,9 @@ const Start: React.FC = () => {
       setIsTransitioning(true);
       setUserAccessToken(token);
 
-      if (token) {
-        await SplashScreen.hide();
-      }
+      console.log("Token:", token);
+
+      await SplashScreen.hide();
     } catch (error) {
       console.error("Auth check error:", error);
       setUserAccessToken(undefined);

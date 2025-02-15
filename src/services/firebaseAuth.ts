@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { isPlatform } from "@ionic/react";
-import { getAuth, onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { FirebaseAppCheck } from "@capacitor-firebase/app-check";
 
 let isFirebaseInitialized = false;
 let authInitialized = false;
@@ -59,6 +60,11 @@ export const getAccessToken = async (): Promise<string | undefined> => {
     await initializeFirebase();
   }
 
+  // const setTokenAutoRefreshEnabled = async () => {
+  //   await FirebaseAppCheck.setTokenAutoRefreshEnabled({ enabled: true });
+  // };
+
+  // Capacitor.getPlatform()
   if (!isPlatform("ios") && !isPlatform("android")) {
     // For web platform, wait for auth state if needed
     const auth = getAuth();
@@ -108,11 +114,14 @@ export const initializeFirebase = async () => {
     if (isPlatform("ios") || isPlatform("android")) {
       console.log("Initializing Firebase for IOS or Android platforms");
       await FirebaseAuthentication.addListener("authStateChange", (change) => {
+        console.log("Auth state changed:", change);
         authInitialized = true;
       });
 
+      await FirebaseAppCheck.setTokenAutoRefreshEnabled({ enabled: true });
+
       // Verify initialization worked
-      const result = await FirebaseAuthentication.getCurrentUser();
+      await FirebaseAuthentication.getCurrentUser();
     } else {
       const firebaseConfig = {
         apiKey: "AIzaSyCMkst3LTWYPv4CQ5AcR7ISwf1qPXRby_c",
