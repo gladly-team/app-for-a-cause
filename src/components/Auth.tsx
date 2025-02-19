@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
-import { getAccessToken } from "../services/firebaseAuth";
-import { useIonAlert } from "@ionic/react";
+import { useIonAlert, useIonRouter } from "@ionic/react";
 
 interface AuthProps {
   onAuthSuccess: () => void;
 }
 
 const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
+  const router = useIonRouter();
   const [presentAlert] = useIonAlert();
 
   //
@@ -46,28 +46,51 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     }
   };
 
-  const emailSignIn = async (emailData: string) => {
-    try {
-      const result = await FirebaseAuthentication.signInWithEmailAndPassword({
-        email: emailData,
-        password: "", // Password will be handled by the web flow
-      });
-      const user = result.user;
-      if (user) {
-        console.log("Email login successful:", user.uid);
-        const token = await getAccessToken();
-        if (token) {
-          onAuthSuccess();
-        }
-      }
-    } catch (error) {
-      console.error("Email login error:", error);
-      presentAlert({
-        header: "Login Failed",
-        message: "Could not complete email login. Please try again.",
-        buttons: ["OK"],
-      });
-    }
+  // //
+  // // Load Email Sign In.
+  // //
+  // const emailSignIn = async (email: string, password: string) => {
+  //   try {
+  //     const result = await FirebaseAuthentication.signInWithEmailAndPassword({ email, password });
+  //     const user = result.user;
+
+  //     if (user) {
+  //       onAuthSuccess();
+  //     }
+  //   } catch (error: any) {
+  //     console.log(error);
+
+  //     // If error indicates the user does not exist, attempt to register the user instead
+  //     if (error.code === "auth/user-not-found" || (error.message && error.message.includes("user not found"))) {
+  //       try {
+  //         const createResult = await FirebaseAuthentication.createUserWithEmailAndPassword({ email, password });
+  //         const user = createResult.user;
+  //         const credential = createResult.credential;
+  //         if (user && credential) {
+  //           onAuthSuccess();
+  //         }
+  //       } catch (createError) {
+  //         presentAlert({
+  //           header: "Registration Failed",
+  //           message: "Could not complete registration. Please try again.",
+  //           buttons: ["OK"],
+  //         });
+  //       }
+  //     } else {
+  //       presentAlert({
+  //         header: "Login Failed",
+  //         message: "Could not complete email login. Please try again.",
+  //         buttons: ["OK"],
+  //       });
+  //     }
+  //   }
+  // };
+
+  // Function to forward to a new Ionic window with the given URL
+  const forwardPage = async (url: string, title: string) => {
+    localStorage.setItem("forward-page-title", title);
+    localStorage.setItem("forward-page-iframe-url", url);
+    router.push("/page");
   };
 
   //
@@ -86,10 +109,14 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         break;
 
       case "mobile-login-email":
-        if (event.data.email) {
-          emailSignIn(event.data.email);
-        }
+        forwardPage(event.data.url, "Email Login");
         break;
+
+      // case "mobile-login-email-submit":
+      //   if (event.data.email && event.data.password) {
+      //     emailSignIn(event.data.email, event.data.password);
+      //   }
+      //   break;
 
       case "mobile-login-apple":
         appleSignIn();

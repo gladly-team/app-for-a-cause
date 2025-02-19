@@ -65,6 +65,22 @@ const Start: React.FC = () => {
     return () => clearInterval(refreshInterval);
   }, []);
 
+  //
+  // Adding a new effect to check local storage for 'page-refresh'
+  // and call checkAuthStatus if exists
+  //
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const refreshVal = localStorage.getItem("page-refresh") || null;
+
+      if (refreshVal) {
+        localStorage.removeItem("page-refresh");
+        checkAuthStatus();
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   if (isLoading) {
     return null;
   }

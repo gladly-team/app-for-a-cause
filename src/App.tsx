@@ -3,6 +3,7 @@ import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Start from "./pages/Start";
+import Page from "./pages/Page";
 import Games from "./pages/Games";
 import Leaderboard from "./pages/Leaderboard";
 
@@ -36,6 +37,9 @@ const App: React.FC = () => (
         </Route>
         <Route path="/games">
           <Games />
+        </Route>
+        <Route path="/page">
+          <Page />
         </Route>
         <Route path="/leaderboard">
           <Leaderboard />
