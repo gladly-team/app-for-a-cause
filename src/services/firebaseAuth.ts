@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
-import { isPlatform } from "@ionic/react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { FirebaseAppCheck } from "@capacitor-firebase/app-check";
+import { Capacitor } from "@capacitor/core";
 
 let isFirebaseInitialized = false;
 let authInitialized = false;
@@ -13,7 +13,7 @@ let initializationError: Error | null = null;
 //
 export const hasUser = async (): Promise<boolean> => {
   try {
-    if (!isPlatform("ios") && !isPlatform("android")) {
+    if (Capacitor.getPlatform() === "web") {
       // For web platform, wait for Firebase to initialize first
       if (!isFirebaseInitialized) {
         await initializeFirebase();
@@ -60,8 +60,7 @@ export const getAccessToken = async (): Promise<string | undefined> => {
     await initializeFirebase();
   }
 
-  // Capacitor.getPlatform()
-  if (!isPlatform("ios") && !isPlatform("android")) {
+  if (Capacitor.getPlatform() === "web") {
     // For web platform, wait for auth state if needed
     const auth = getAuth();
     if (!auth.currentUser) {
@@ -107,7 +106,7 @@ export const initializeFirebase = async () => {
   }
 
   try {
-    if (isPlatform("ios") || isPlatform("android")) {
+    if (Capacitor.getPlatform() !== "web") {
       console.log("Initializing Firebase for IOS or Android platforms");
       await FirebaseAuthentication.addListener("authStateChange", (change) => {
         console.log("Auth state changed:", change);

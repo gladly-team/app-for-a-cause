@@ -17,6 +17,13 @@ const Start: React.FC = () => {
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
   const [userData, setUserData] = useState<UserData | null>(null);
 
+  // Call this when a user selects a cause.
+  const onCauseSelect = async () => {
+    if (userAccessToken) {
+      fetchUserData(userAccessToken);
+    }
+  };
+
   // Log user out.
   const logOut = async () => {
     setIsTransitioning(true);
@@ -132,7 +139,7 @@ const Start: React.FC = () => {
             </div>
           ) : !userData?.causeId ? (
             <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
-              <SelectCause userAccessToken={userAccessToken} onCauseSelect={handleCauseSelect} />
+              <SelectCause userAccessToken={userAccessToken} onCauseSelect={onCauseSelect} />
             </div>
           ) : (
             <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>

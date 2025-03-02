@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
+import SelectCause from "./SelectCause";
 
 import "./Dashboard.css";
 
@@ -13,7 +14,22 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
+  const selectCauseModal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
+
+  // Handle cause selection
+  const handleCauseSelect = () => {
+    // Close the modal when cause selection is successful
+    selectCauseModal.current?.dismiss();
+  };
+
+  // Open select cause modal and hide settings modal
+  const openSelectCauseModal = () => {
+    // Dismiss settings modal if it's open
+    modal.current?.dismiss();
+    // Present select cause modal
+    selectCauseModal.current?.present();
+  };
 
   //
   // Get the user's mobile OS
@@ -94,7 +110,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
 
       // Load the change cause screen
       case "mobile-screen-change-cause":
-        alert("mobile-screen-change-cause");
+        openSelectCauseModal();
         break;
 
       // Load the mobile screen get tab desktop screen
@@ -172,6 +188,12 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
           ) : (
             "<p>Error: No Access Token. Please kill app and restart.</p>"
           )}
+        </IonContent>
+      </IonModal>
+
+      <IonModal ref={selectCauseModal} initialBreakpoint={1} breakpoints={[0, 1]} className="select-cause-modal" style={{ height: "100%" }}>
+        <IonContent style={{ height: "100%" }}>
+          <SelectCause userAccessToken={userAccessToken} onCauseSelect={handleCauseSelect} />
         </IonContent>
       </IonModal>
     </>

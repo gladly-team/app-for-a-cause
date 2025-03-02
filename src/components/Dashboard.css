@@ -9,3 +9,12 @@
 .settings-modal {
   --height: 272px;
 }
+
+.select-cause-modal {
+  --height: 100%;
+  --width: 100%;
+}
+
+.select-cause-modal::part(content) {
+  height: 100%;
+}
