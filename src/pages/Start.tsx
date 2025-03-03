@@ -5,6 +5,7 @@ import Auth from "../components/Auth";
 import { Capacitor } from "@capacitor/core";
 import SelectCause from "../components/SelectCause";
 import SetUsername from "../components/SetUsername";
+import EmailVerification from "../components/EmailVerification";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { getAccessToken, initializeFirebase, signOut } from "../services/firebaseAuth";
 import "./Start.css";
@@ -12,6 +13,7 @@ import "./Start.css";
 interface UserData {
   causeId?: string;
   username?: string;
+  emailVerified?: boolean;
 }
 
 const Start: React.FC = () => {
@@ -29,6 +31,13 @@ const Start: React.FC = () => {
 
   // Call this when a user sets their username
   const onUsernameSet = async () => {
+    if (userAccessToken) {
+      fetchUserData(userAccessToken);
+    }
+  };
+
+  // Call this when a user verifies their email
+  const onEmailVerified = async () => {
     if (userAccessToken) {
       fetchUserData(userAccessToken);
     }
@@ -152,6 +161,14 @@ const Start: React.FC = () => {
       return (
         <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
           <SetUsername userAccessToken={userAccessToken} onUsernameSet={onUsernameSet} />
+        </div>
+      );
+    }
+
+    if (userData?.emailVerified === false) {
+      return (
+        <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+          <EmailVerification userAccessToken={userAccessToken} onEmailVerified={onEmailVerified} />
         </div>
       );
     }

@@ -10,6 +10,7 @@ import { getAccessToken } from "../services/firebaseAuth";
 const Leaderboard: React.FC = () => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
+  const desktopEmailModal = useRef<HTMLIonModalElement>(null);
   const [accessToken, setAccessToken] = useState<string | undefined>();
 
   //
@@ -31,6 +32,14 @@ const Leaderboard: React.FC = () => {
     router.push("/start", "back");
   };
 
+  // Open desktop email modal and hide settings modal
+  const openDesktopEmailModal = () => {
+    // Dismiss settings modal if it's open
+    modal.current?.dismiss();
+    // Present desktop email modal
+    desktopEmailModal.current?.present();
+  };
+
   //
   // Function to handle received messages from the iframe
   //
@@ -49,6 +58,11 @@ const Leaderboard: React.FC = () => {
       // Load the dashboard screen
       case "mobile-screen-dashboard":
         goToDashboard();
+        break;
+
+      // Load the mobile screen get tab desktop screen
+      case "mobile-screen-get-tab-desktop":
+        openDesktopEmailModal();
         break;
 
       // Load the learn levels screen
@@ -109,6 +123,21 @@ const Leaderboard: React.FC = () => {
           </IonContent>
         </IonModal>
       </IonContent>
+
+      <IonModal ref={desktopEmailModal} initialBreakpoint={1} breakpoints={[0, 1]} className="desktop-email-modal">
+        <IonContent>
+          {accessToken ? (
+            <iframe
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/desktop-email?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+              frameBorder="0"
+              allowFullScreen
+              style={{ width: "100%", height: "100%" }}
+            ></iframe>
+          ) : (
+            "<p>Error: No Access Token. Please kill app and restart.</p>"
+          )}
+        </IonContent>
+      </IonModal>
     </IonPage>
   );
 };
