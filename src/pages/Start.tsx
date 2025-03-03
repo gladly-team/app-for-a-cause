@@ -4,12 +4,14 @@ import Dashboard from "../components/Dashboard";
 import Auth from "../components/Auth";
 import { Capacitor } from "@capacitor/core";
 import SelectCause from "../components/SelectCause";
+import SetUsername from "../components/SetUsername";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { getAccessToken, initializeFirebase, signOut } from "../services/firebaseAuth";
 import "./Start.css";
 
 interface UserData {
   causeId?: string;
+  username?: string;
 }
 
 const Start: React.FC = () => {
@@ -20,6 +22,13 @@ const Start: React.FC = () => {
 
   // Call this when a user selects a cause.
   const onCauseSelect = async () => {
+    if (userAccessToken) {
+      fetchUserData(userAccessToken);
+    }
+  };
+
+  // Call this when a user sets their username
+  const onUsernameSet = async () => {
     if (userAccessToken) {
       fetchUserData(userAccessToken);
     }
@@ -121,24 +130,43 @@ const Start: React.FC = () => {
     return null;
   }
 
+  // Helper function to determine which component to show
+  const renderContent = () => {
+    if (!userAccessToken) {
+      return (
+        <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+          <Auth onAuthSuccess={checkAuthStatus} />
+        </div>
+      );
+    }
+
+    if (!userData?.causeId) {
+      return (
+        <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+          <SelectCause userAccessToken={userAccessToken} onCauseSelect={onCauseSelect} />
+        </div>
+      );
+    }
+
+    if (!userData?.username) {
+      return (
+        <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+          <SetUsername userAccessToken={userAccessToken} onUsernameSet={onUsernameSet} />
+        </div>
+      );
+    }
+
+    return (
+      <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
+        <Dashboard userAccessToken={userAccessToken} logOut={logOut} />
+      </div>
+    );
+  };
+
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="container">
-          {!userAccessToken ? (
-            <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
-              <Auth onAuthSuccess={checkAuthStatus} />
-            </div>
-          ) : !userData?.causeId ? (
-            <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
-              <SelectCause userAccessToken={userAccessToken} onCauseSelect={onCauseSelect} />
-            </div>
-          ) : (
-            <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
-              <Dashboard userAccessToken={userAccessToken} logOut={logOut} />
-            </div>
-          )}
-        </div>
+        <div className="container">{renderContent()}</div>
       </IonContent>
     </IonPage>
   );
