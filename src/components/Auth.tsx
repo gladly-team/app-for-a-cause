@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { getUrlPostFix } from "../services/url";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { useIonAlert, useIonRouter } from "@ionic/react";
 
@@ -91,7 +92,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     };
   }, []);
 
-  return <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/login`} width="100%" height="100%" frameBorder="0" />;
+  return <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/login?${getUrlPostFix()}`} width="100%" height="100%" frameBorder="0" />;
 };
 
 export default Auth;

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useIonRouter, useIonAlert } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
+import { getUrlPostFix } from "../services/url";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 
@@ -106,7 +107,11 @@ const Page: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {url ? <iframe src={`${url}?access_token=${accessToken}`} frameBorder="0" allowFullScreen style={{ width: "100%", height: "100%" }}></iframe> : <p>Loading...</p>}
+        {url ? (
+          <iframe src={`${url}?access_token=${accessToken}&${getUrlPostFix()}`} frameBorder="0" allowFullScreen style={{ width: "100%", height: "100%" }}></iframe>
+        ) : (
+          <p>Loading...</p>
+        )}
       </IonContent>
     </IonPage>
   );

@@ -3,6 +3,7 @@ import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
 import SelectCause from "./SelectCause";
+import { getUrlPostFix } from "../services/url";
 
 import "./Dashboard.css";
 
@@ -15,6 +16,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
   const selectCauseModal = useRef<HTMLIonModalElement>(null);
+  const desktopEmailModal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
 
   // Handle cause selection
@@ -29,6 +31,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
     modal.current?.dismiss();
     // Present select cause modal
     selectCauseModal.current?.present();
+  };
+
+  // Open desktop email modal and hide settings modal
+  const openDesktopEmailModal = () => {
+    // Dismiss settings modal if it's open
+    modal.current?.dismiss();
+    // Present desktop email modal
+    desktopEmailModal.current?.present();
   };
 
   //
@@ -115,7 +125,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
 
       // Load the mobile screen get tab desktop screen
       case "mobile-screen-get-tab-desktop":
-        alert("mobile-screen-get-tab-desktop");
+        openDesktopEmailModal();
         break;
 
       // Load the mobile settings screen
@@ -170,7 +180,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   return (
     <>
       <iframe
-        src={`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`}
+        src={`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
         frameBorder="0"
         allowFullScreen
         style={{ width: "100%", height: "100%" }}
@@ -180,7 +190,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
         <IonContent>
           {userAccessToken ? (
             <iframe
-              src={`${process.env.REACT_APP_SERVER}/v5/mobile/settings?access_token=${userAccessToken}&mobile_os=${getMobileOS()}`}
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/settings?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
               frameBorder="0"
               allowFullScreen
               style={{ width: "100%", height: "100%" }}
@@ -194,6 +204,21 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
       <IonModal ref={selectCauseModal} initialBreakpoint={1} breakpoints={[0, 1]} className="select-cause-modal" style={{ height: "100%" }}>
         <IonContent style={{ height: "100%" }}>
           <SelectCause userAccessToken={userAccessToken} onCauseSelect={handleCauseSelect} />
+        </IonContent>
+      </IonModal>
+
+      <IonModal ref={desktopEmailModal} initialBreakpoint={1} breakpoints={[0, 1]} className="desktop-email-modal">
+        <IonContent>
+          {userAccessToken ? (
+            <iframe
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/desktop-email?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+              frameBorder="0"
+              allowFullScreen
+              style={{ width: "100%", height: "100%" }}
+            ></iframe>
+          ) : (
+            "<p>Error: No Access Token. Please kill app and restart.</p>"
+          )}
         </IonContent>
       </IonModal>
     </>

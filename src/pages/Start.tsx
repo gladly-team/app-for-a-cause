@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IonContent, IonPage } from "@ionic/react";
 import Dashboard from "../components/Dashboard";
 import Auth from "../components/Auth";
+import { Capacitor } from "@capacitor/core";
 import SelectCause from "../components/SelectCause";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { getAccessToken, initializeFirebase, signOut } from "../services/firebaseAuth";
@@ -42,6 +43,8 @@ const Start: React.FC = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_SERVER}/v5/api/user`, {
         headers: {
+          "X-Platform": "mobile",
+          "X-Platform-Type": Capacitor.getPlatform(),
           Authorization: `Bearer ${token}`,
         },
       });
@@ -60,24 +63,13 @@ const Start: React.FC = () => {
     }
   };
 
-  // Handle cause selection
-  const handleCauseSelect = async (causeId: string) => {
-    if (!userAccessToken) return;
-
-    try {
-      // TODO: Implement API call to save the selected cause
-      setUserData((prev) => (prev ? { ...prev, causeId } : { causeId }));
-    } catch (error) {
-      console.error("Error saving cause:", error);
-    }
-  };
-
   // Check if a user is logged in.
   const checkAuthStatus = async () => {
     try {
       const token = await getAccessToken();
       setIsTransitioning(true);
       setUserAccessToken(token);
+
       if (token) {
         await fetchUserData(token);
       }

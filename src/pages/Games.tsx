@@ -4,6 +4,7 @@ import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
+import { getUrlPostFix } from "../services/url";
 import { getAccessToken } from "../services/firebaseAuth";
 
 const Games: React.FC = () => {
@@ -77,7 +78,7 @@ const Games: React.FC = () => {
       <IonContent fullscreen>
         {accessToken ? (
           <iframe
-            src={`${process.env.REACT_APP_SERVER}/v5/mobile/games?access_token=${accessToken}`}
+            src={`${process.env.REACT_APP_SERVER}/v5/mobile/games?access_token=${accessToken}&${getUrlPostFix()}`}
             frameBorder="0"
             allowFullScreen
             style={{ width: "100%", height: "100%" }}

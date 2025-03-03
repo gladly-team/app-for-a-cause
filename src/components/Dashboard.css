@@ -18,3 +18,7 @@
 .select-cause-modal::part(content) {
   height: 100%;
 }
+
+.desktop-email-modal {
+  --height: 330px;
+}

@@ -2,8 +2,9 @@ import "./Leaderboard.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
-import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle } from "@ionic/react";
+import { IonModal } from "@ionic/react";
 import { Capacitor } from "@capacitor/core";
+import { getUrlPostFix } from "../services/url";
 import { getAccessToken } from "../services/firebaseAuth";
 
 const Leaderboard: React.FC = () => {
@@ -84,7 +85,7 @@ const Leaderboard: React.FC = () => {
       <IonContent fullscreen>
         {accessToken ? (
           <iframe
-            src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard?access_token=${accessToken}&mobile_os=${getMobileOS()}`}
+            src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
             frameBorder="0"
             allowFullScreen
             style={{ width: "100%", height: "100%" }}
@@ -97,7 +98,7 @@ const Leaderboard: React.FC = () => {
           <IonContent>
             {accessToken ? (
               <iframe
-                src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard-learn-levels?access_token=${accessToken}&mobile_os=${getMobileOS()}`}
+                src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard-learn-levels?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
                 frameBorder="0"
                 allowFullScreen
                 style={{ width: "100%", height: "100%" }}

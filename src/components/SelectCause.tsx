@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { getUrlPostFix } from "../services/url";
 import { useIonRouter, useIonAlert } from "@ionic/react";
 
 interface SelectCauseProps {
@@ -48,7 +49,7 @@ const SelectCause: React.FC<SelectCauseProps> = ({ onCauseSelect, userAccessToke
   }, []);
 
   return userAccessToken ? (
-    <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/select-cause?access_token=${userAccessToken}`} width="100%" height="100%" frameBorder="0" />
+    <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/select-cause?access_token=${userAccessToken}&${getUrlPostFix()}`} width="100%" height="100%" frameBorder="0" />
   ) : (
     <p>Loading...</p>
   );
