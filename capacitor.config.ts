@@ -29,6 +29,10 @@ const config: CapacitorConfig = {
       useDialog: true,
     },
   },
+
+  ios: {
+    handleApplicationNotifications: false,
+  },
 };
 
 export default config;

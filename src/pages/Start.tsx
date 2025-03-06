@@ -8,6 +8,7 @@ import SetUsername from "../components/SetUsername";
 import EmailVerification from "../components/EmailVerification";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { getAccessToken, initializeFirebase, signOut } from "../services/firebaseAuth";
+import OneSignal from "onesignal-cordova-plugin";
 import "./Start.css";
 
 interface UserData {
@@ -72,6 +73,8 @@ const Start: React.FC = () => {
       }
 
       const data = await response.json();
+
+      OneSignal.login(data.id);
 
       console.log("User data:", data);
 
