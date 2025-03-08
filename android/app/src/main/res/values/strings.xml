@@ -5,4 +5,7 @@
     <string name="package_name">io.gladly.appforacause</string>
     <string name="custom_url_scheme">io.gladly.appforacause</string>
     <string name="admob_app_id">ca-app-pub-1918626353776886~3062970581</string>
+    <string name="facebook_app_id">774381839264847</string>
+    <string name="fb_login_protocol_scheme">fb[774381839264847]</string>
+    <string name="facebook_client_token">304eb26416c5b38e2d669e76fe789199</string>
 </resources>
