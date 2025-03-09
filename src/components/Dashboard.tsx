@@ -89,7 +89,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
     // ca-app-pub-1918626353776886/3338302755 android ad unit id
 
     const options: RewardAdOptions = {
-      adId: "ca-app-pub-3940256099942544/5224354917",
+      adId: adId,
     };
 
     await AdMob.prepareRewardVideoAd(options);

@@ -17,3 +17,7 @@ Have to patch the library.
 https://github.com/capawesome-team/capacitor-firebase/compare/main...YoloEdu:capacitor-firebase:main
 
 node_modules/@capacitor-firebase/authentication/ios/Plugin/Handlers/FacebookAuthProviderHandler.swift
+
+# Splash Screens
+
+https://github.com/ionic-team/capacitor-assets/issues/495
