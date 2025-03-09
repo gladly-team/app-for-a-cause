@@ -2,10 +2,21 @@ import React, { useEffect, useRef } from "react";
 import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
+//import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
+// import { StatusBar, Style } from "@capacitor/status-bar";
 import SelectCause from "./SelectCause";
 import { getUrlPostFix } from "../services/url";
-
 import "./Dashboard.css";
+
+// const showStatusBar = async () => {
+//   await StatusBar.show();
+// };
+
+// const setBackgroundColor = async () => {
+//   await StatusBar.setStyle({ style: Style.Light });
+//   await EdgeToEdge.setBackgroundColor({ color: "#ECF1FF" });
+//   await StatusBar.setBackgroundColor({ color: "#ECF1FF" });
+// };
 
 interface DashboardProps {
   logOut: () => void;
@@ -151,10 +162,21 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
     }
   }
 
+  // //
+  // Called when the component changes.
+  //
+  useEffect(() => {
+    // Show the status bar
+    //showStatusBar();
+  });
+
   //
   // Add event listener for messages from the iframe
   //
   useEffect(() => {
+    // Set the background color and status bar style
+    //setBackgroundColor();
+
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
 

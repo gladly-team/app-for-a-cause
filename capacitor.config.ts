@@ -6,6 +6,14 @@ const config: CapacitorConfig = {
   webDir: "build",
   backgroundColor: "#ffffff",
   plugins: {
+    EdgeToEdge: {
+      backgroundColor: "#ECF1FF",
+    },
+    StatusBar: {
+      overlaysWebView: false,
+      style: "DEFAULT",
+      backgroundColor: "#ECF1FF",
+    },
     CapacitorHttp: {
       enabled: true,
     },

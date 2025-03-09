@@ -1,11 +1,18 @@
 import React, { useEffect } from "react";
 import { getUrlPostFix } from "../services/url";
+//import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
+//import { StatusBar, Style } from "@capacitor/status-bar";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { useIonAlert, useIonRouter } from "@ionic/react";
 
 interface AuthProps {
   onAuthSuccess: () => void;
 }
+
+// const setBackgroundColor = async () => {
+//   await EdgeToEdge.setBackgroundColor({ color: "#00000" });
+//   await StatusBar.setStyle({ style: Style.Dark });
+// };
 
 const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   const router = useIonRouter();
@@ -81,6 +88,13 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         break;
     }
   }
+
+  // //
+  // // Set the background color and status bar style
+  // //
+  // useEffect(() => {
+  //   setBackgroundColor();
+  // });
 
   //
   // Load on component load.

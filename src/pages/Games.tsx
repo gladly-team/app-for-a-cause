@@ -2,10 +2,21 @@ import "./Games.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useIonRouter } from "@ionic/react";
 import { IonContent, IonPage } from "@ionic/react";
+//import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
+//import { StatusBar, Style } from "@capacitor/status-bar";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 import { getUrlPostFix } from "../services/url";
 import { getAccessToken } from "../services/firebaseAuth";
+
+// const hideStatusBar = async () => {
+//   await StatusBar.hide();
+// };
+
+// const setBackgroundColor = async () => {
+//   await EdgeToEdge.setBackgroundColor({ color: "#00000" });
+//   await StatusBar.setStyle({ style: Style.Dark });
+// };
 
 const Games: React.FC = () => {
   const router = useIonRouter();
@@ -47,6 +58,12 @@ const Games: React.FC = () => {
   // Add event listener for messages from the iframe
   //
   useEffect(() => {
+    // Hide the status bar
+    //hideStatusBar();
+
+    // Set the background color and status bar style
+    //setBackgroundColor();
+
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
 
