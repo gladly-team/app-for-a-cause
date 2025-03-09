@@ -73,9 +73,17 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   const loadRewardAd = async () => {
     await AdMob.initialize({
       testingDevices: [], // Test device ID
-      initializeForTesting: true,
+      initializeForTesting: false,
     });
 
+    // Set the ad ID based on the mobile OS
+    let adId = "ca-app-pub-1918626353776886/7648248705";
+
+    if (getMobileOS() === "android") {
+      adId = "ca-app-pub-1918626353776886/3338302755";
+    }
+
+    // Spicer's iPhone: E0AA4EF0-531E-4C89-8BDB-905F5EB5DCB2
     // ca-app-pub-3940256099942544/5224354917 always test https://developers.google.com/admob/android/rewarded
     // ca-app-pub-1918626353776886/7648248705 ios ad unit id
     // ca-app-pub-1918626353776886/3338302755 android ad unit id
@@ -166,9 +174,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
       console.log("Loaded:", info);
     });
 
+    // Called after the ad is watched
     AdMob.addListener(RewardAdPluginEvents.Rewarded, (rewardItem: AdMobRewardItem) => {
-      // Subscribe user rewarded
-      console.log("Rewarded", rewardItem);
+      fetch(`${process.env.REACT_APP_SERVER}/v5/mobile/video-ad-rewarded?access_token=${userAccessToken}&${getUrlPostFix()}`, {
+        method: "POST",
+      })
+        .then((response) => response.json())
+        .then((data) => console.log("Video ad rewarded acknowledged:", data))
+        .catch((error) => console.error("Error acknowledging video ad reward:", error));
     });
 
     // Cleanup the event listener when the component unmounts
