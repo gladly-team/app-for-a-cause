@@ -7,12 +7,7 @@ const config: CapacitorConfig = {
   backgroundColor: "#ffffff",
   plugins: {
     EdgeToEdge: {
-      backgroundColor: "#ECF1FF",
-    },
-    StatusBar: {
-      overlaysWebView: false,
-      style: "DEFAULT",
-      backgroundColor: "#ECF1FF",
+      backgroundColor: "#000000",
     },
     CapacitorHttp: {
       enabled: true,

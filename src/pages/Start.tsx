@@ -7,6 +7,7 @@ import SelectCause from "../components/SelectCause";
 import SetUsername from "../components/SetUsername";
 import EmailVerification from "../components/EmailVerification";
 import { SplashScreen } from "@capacitor/splash-screen";
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { getAccessToken, initializeFirebase, signOut } from "../services/firebaseAuth";
 import OneSignal from "onesignal-cordova-plugin";
 import "./Start.css";
@@ -16,6 +17,10 @@ interface UserData {
   username?: string;
   emailVerified?: boolean;
 }
+
+const setBackgroundColorToBlack = async () => {
+  await EdgeToEdge.setBackgroundColor({ color: "#000000" });
+};
 
 const Start: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);

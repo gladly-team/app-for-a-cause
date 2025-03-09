@@ -18,6 +18,10 @@ import "./Dashboard.css";
 //   await StatusBar.setBackgroundColor({ color: "#ECF1FF" });
 // };
 
+// const setBackgroundColorToBlack = async () => {
+//   await EdgeToEdge.setBackgroundColor({ color: "#000000" });
+// };
+
 interface DashboardProps {
   logOut: () => void;
   userAccessToken: string;
