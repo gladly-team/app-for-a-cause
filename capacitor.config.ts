@@ -4,6 +4,7 @@ const config: CapacitorConfig = {
   appId: "io.gladly.appforacause",
   appName: "App for a Cause",
   webDir: "build",
+  backgroundColor: "#ffffff",
   plugins: {
     CapacitorHttp: {
       enabled: true,
@@ -16,7 +17,7 @@ const config: CapacitorConfig = {
       launchShowDuration: 3000,
       launchAutoHide: false,
       launchFadeOutDuration: 3000,
-      backgroundColor: "#ffffffff",
+      backgroundColor: "#ffffff",
       androidSplashResourceName: "splash",
       androidScaleType: "CENTER",
       showSpinner: true,
