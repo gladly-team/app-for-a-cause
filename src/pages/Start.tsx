@@ -76,8 +76,6 @@ const Start: React.FC = () => {
 
       OneSignal.login(data.id);
 
-      console.log("User data:", data);
-
       setUserData(data);
     } catch (error) {
       console.error("Error fetching user data:", error);

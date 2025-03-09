@@ -66,7 +66,6 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         break;
 
       case "mobile-login-facebook":
-        alert("Facebook login is not supported yet.");
         facebookSignIn();
         break;
 
