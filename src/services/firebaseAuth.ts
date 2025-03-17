@@ -169,3 +169,29 @@ export const signOut = async (): Promise<void> => {
     throw error;
   }
 };
+
+//
+// Delete the current user's account
+//
+export const deleteUser = async (): Promise<void> => {
+  try {
+    if (!isFirebaseInitialized) {
+      await initializeFirebase();
+    }
+
+    if (Capacitor.getPlatform() === "web") {
+      // For web platform
+      const auth = getAuth();
+      if (!auth.currentUser) {
+        throw new Error("No user is currently signed in");
+      }
+      await auth.currentUser.delete();
+    } else {
+      // For Capacitor platforms (iOS, Android)
+      await FirebaseAuthentication.deleteUser();
+    }
+  } catch (error) {
+    console.error("Error deleting user account:", error);
+    throw error;
+  }
+};

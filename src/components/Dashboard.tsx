@@ -1,33 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
-import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError } from "@capacitor-community/admob";
+import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError, AdmobConsentStatus } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
-//import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
-// import { StatusBar, Style } from "@capacitor/status-bar";
 import SelectCause from "./SelectCause";
 import { getUrlPostFix } from "../services/url";
 import "./Dashboard.css";
 
-// const showStatusBar = async () => {
-//   await StatusBar.show();
-// };
-
-// const setBackgroundColor = async () => {
-//   await StatusBar.setStyle({ style: Style.Light });
-//   await EdgeToEdge.setBackgroundColor({ color: "#ECF1FF" });
-//   await StatusBar.setBackgroundColor({ color: "#ECF1FF" });
-// };
-
-// const setBackgroundColorToBlack = async () => {
-//   await EdgeToEdge.setBackgroundColor({ color: "#000000" });
-// };
-
 interface DashboardProps {
   logOut: () => void;
+  onDeleteUser: () => void;
   userAccessToken: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
+const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDeleteUser }) => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
   const selectCauseModal = useRef<HTMLIonModalElement>(null);
@@ -83,13 +68,31 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
   };
 
   //
+  // Set the background color and status bar style
+  //
+  const setupAdMob = async () => {
+    await AdMob.initialize({
+      testingDevices: [], // Test device ID "2b52fe5b325742d5e15188c02e146927"
+      initializeForTesting: false,
+    });
+
+    const [trackingInfo, consentInfo] = await Promise.all([AdMob.trackingAuthorizationStatus(), AdMob.requestConsentInfo()]);
+
+    if (consentInfo.isConsentFormAvailable && consentInfo.status === AdmobConsentStatus.REQUIRED) {
+      const { status } = await AdMob.showConsentForm();
+    }
+
+    if (trackingInfo.status === "notDetermined") {
+      await AdMob.requestTrackingAuthorization();
+    }
+  };
+
+  //
   // This is called when the user clicks on the reward ad button.
   //
   const loadRewardAd = async () => {
-    await AdMob.initialize({
-      testingDevices: [], // Test device ID
-      initializeForTesting: false,
-    });
+    // Initialize AdMob
+    setupAdMob();
 
     // Set the ad ID based on the mobile OS
     let adId = "ca-app-pub-1918626353776886/7648248705";
@@ -109,6 +112,70 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
 
     await AdMob.prepareRewardVideoAd(options);
     await AdMob.showRewardVideoAd();
+  };
+
+  //
+  // Handle account deletion
+  //
+  const handleAccountDeletion = async () => {
+    // The alert will be closed automatically before this function is executed
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER}/v5/api/user`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      });
+
+      console.log("Response: ", response.ok);
+
+      if (response.ok) {
+        // If deletion is successful, log the user out
+        onDeleteUser();
+      } else {
+        // Show error alert with a small delay to ensure UI is ready
+        setTimeout(() => {
+          presentAlert({
+            header: "Error",
+            message: "Failed to delete account. Please try again later.",
+            buttons: ["OK"],
+          });
+        }, 300);
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+
+      // Show error alert with a small delay to ensure UI is ready
+      setTimeout(() => {
+        presentAlert({
+          header: "Error",
+          message: "An unexpected error occurred. Please try again later.",
+          buttons: ["OK"],
+        });
+      }, 300);
+    }
+  };
+
+  //
+  // Show confirmation dialog for account deletion
+  //
+  const confirmAccountDeletion = () => {
+    presentAlert({
+      header: "Delete Account",
+      message: "Are you sure you want to delete your account? This action cannot be undone.",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+        },
+        {
+          text: "Delete",
+          role: "destructive",
+          handler: handleAccountDeletion,
+        },
+      ],
+    });
   };
 
   //
@@ -154,6 +221,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut }) => {
       // Load the mobile settings screen
       case "mobile-screen-settings":
         modal.current?.present();
+        break;
+
+      // Handle account deletion request
+      case "account-delete":
+        confirmAccountDeletion();
         break;
 
       // Load logout screen

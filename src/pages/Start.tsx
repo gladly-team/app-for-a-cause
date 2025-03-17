@@ -8,7 +8,7 @@ import SetUsername from "../components/SetUsername";
 import EmailVerification from "../components/EmailVerification";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
-import { getAccessToken, initializeFirebase, signOut } from "../services/firebaseAuth";
+import { getAccessToken, initializeFirebase, signOut, deleteUser } from "../services/firebaseAuth";
 import OneSignal from "onesignal-cordova-plugin";
 import "./Start.css";
 
@@ -49,16 +49,28 @@ const Start: React.FC = () => {
     }
   };
 
+  // Delete user account.
+  const onDeleteUser = async () => {
+    try {
+      await deleteUser();
+    } catch (error) {
+      console.error("Error deleting user account:", error);
+    }
+
+    logOut();
+  };
+
   // Log user out.
   const logOut = async () => {
     setIsTransitioning(true);
     try {
       await signOut();
-      setUserAccessToken(undefined);
-      setUserData(null);
     } catch (error) {
       console.error("Logout error:", error);
     }
+
+    setUserAccessToken(undefined);
+    setUserData(null);
     setTimeout(() => setIsTransitioning(false), 50);
   };
 
@@ -181,7 +193,7 @@ const Start: React.FC = () => {
 
     return (
       <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
-        <Dashboard userAccessToken={userAccessToken} logOut={logOut} />
+        <Dashboard userAccessToken={userAccessToken} logOut={logOut} onDeleteUser={onDeleteUser} />
       </div>
     );
   };
