@@ -95,7 +95,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     setupAdMob();
 
     // Set the ad ID based on the mobile OS
-    let adId = "ca-app-pub-1918626353776886/7648248705";
+    let adId = "ca-app-pub-3940256099942544/5224354917";
 
     if (getMobileOS() === "android") {
       adId = "ca-app-pub-1918626353776886/3338302755";
@@ -261,8 +261,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       console.log("Failed to Loaded:", error);
 
       presentAlert({
-        header: "Ad Load Failed",
-        message: "There are no ads at this time. Please try again later.",
+        header: "Watch a video, raise money for charity!",
+        message: "No videos available right now, please check back later.",
         buttons: ["OK"],
       });
     });
