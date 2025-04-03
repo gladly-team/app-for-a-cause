@@ -46,7 +46,9 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Apple Sign In.
   //
   const appleSignIn = async () => {
-    const result = await FirebaseAuthentication.signInWithApple();
+    const result = await FirebaseAuthentication.signInWithApple({
+      scopes: ["email", "name"],
+    });
     const user = result.user;
     const credential = result.credential;
     if (user && credential) {
