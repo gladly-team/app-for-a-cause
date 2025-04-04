@@ -4,6 +4,7 @@ import { getUrlPostFix } from "../services/url";
 //import { StatusBar, Style } from "@capacitor/status-bar";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { useIonAlert, useIonRouter } from "@ionic/react";
+import { logInfo, logError, logDebug } from "../services/logService";
 
 interface AuthProps {
   onAuthSuccess: () => void;
@@ -22,11 +23,25 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Google Sign In.
   //
   const googleSignIn = async () => {
-    const result = await FirebaseAuthentication.signInWithGoogle();
-    const user = result.user;
-    const credential = result.credential;
-    if (user && credential) {
-      onAuthSuccess();
+    logInfo("Google sign-in attempt initiated");
+    try {
+      const result = await FirebaseAuthentication.signInWithGoogle();
+      const user = result.user;
+      const credential = result.credential;
+      if (user && credential) {
+        logInfo("Google sign-in successful");
+        onAuthSuccess();
+      } else {
+        logError("Google sign-in failed - incomplete user data", {
+          hasUser: !!user,
+          hasCredential: !!credential,
+        });
+      }
+    } catch (error) {
+      logError("Google sign-in error", {
+        error: String(error),
+        stack: (error as Error).stack,
+      });
     }
   };
 
@@ -34,11 +49,25 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Facebook Sign In.
   //
   const facebookSignIn = async () => {
-    const result = await FirebaseAuthentication.signInWithFacebook();
-    const user = result.user;
-    const credential = result.credential;
-    if (user && credential) {
-      onAuthSuccess();
+    logInfo("Facebook sign-in attempt initiated");
+    try {
+      const result = await FirebaseAuthentication.signInWithFacebook();
+      const user = result.user;
+      const credential = result.credential;
+      if (user && credential) {
+        logInfo("Facebook sign-in successful");
+        onAuthSuccess();
+      } else {
+        logError("Facebook sign-in failed - incomplete user data", {
+          hasUser: !!user,
+          hasCredential: !!credential,
+        });
+      }
+    } catch (error) {
+      logError("Facebook sign-in error", {
+        error: String(error),
+        stack: (error as Error).stack,
+      });
     }
   };
 
@@ -46,18 +75,33 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Apple Sign In.
   //
   const appleSignIn = async () => {
-    const result = await FirebaseAuthentication.signInWithApple({
-      scopes: ["email", "name"],
-    });
-    const user = result.user;
-    const credential = result.credential;
-    if (user && credential) {
-      onAuthSuccess();
+    logInfo("Apple sign-in attempt initiated");
+    try {
+      const result = await FirebaseAuthentication.signInWithApple({
+        scopes: ["email", "name"],
+      });
+      const user = result.user;
+      const credential = result.credential;
+      if (user && credential) {
+        logInfo("Apple sign-in successful");
+        onAuthSuccess();
+      } else {
+        logError("Apple sign-in failed - incomplete user data", {
+          hasUser: !!user,
+          hasCredential: !!credential,
+        });
+      }
+    } catch (error) {
+      logError("Apple sign-in error", {
+        error: String(error),
+        stack: (error as Error).stack,
+      });
     }
   };
 
   // Function to forward to a new Ionic window with the given URL
   const forwardPage = async (url: string, title: string) => {
+    logDebug("Forwarding to page", { url, title });
     localStorage.setItem("forward-page-title", title);
     localStorage.setItem("forward-page-iframe-url", url);
     router.push("/page");
@@ -87,6 +131,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         break;
 
       default:
+        logDebug("Unknown action received", { action: event.data.action });
         break;
     }
   }
@@ -102,8 +147,10 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load on component load.
   //
   useEffect(() => {
+    logInfo("Auth component mounted");
     window.addEventListener("message", receiveMessage, false);
     return () => {
+      logDebug("Auth component unmounting");
       window.removeEventListener("message", receiveMessage);
     };
   }, []);

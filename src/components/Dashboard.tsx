@@ -4,6 +4,7 @@ import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardIt
 import { Capacitor } from "@capacitor/core";
 import SelectCause from "./SelectCause";
 import { getUrlPostFix } from "../services/url";
+import { logInfo, logError, logDebug } from "../services/logService";
 import "./Dashboard.css";
 
 interface DashboardProps {
@@ -91,6 +92,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   // This is called when the user clicks on the reward ad button.
   //
   const loadRewardAd = async () => {
+    logInfo("User requested to watch a reward ad");
+
     // Initialize AdMob
     setupAdMob();
 
@@ -110,8 +113,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       adId: adId,
     };
 
-    await AdMob.prepareRewardVideoAd(options);
-    await AdMob.showRewardVideoAd();
+    try {
+      await AdMob.prepareRewardVideoAd(options);
+      await AdMob.showRewardVideoAd();
+      logInfo("Reward ad successfully shown");
+    } catch (error) {
+      logError("Failed to show reward ad", { error: String(error) });
+    }
   };
 
   //
@@ -119,6 +127,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   //
   const handleAccountDeletion = async () => {
     // The alert will be closed automatically before this function is executed
+    logInfo("User initiated account deletion");
 
     try {
       const response = await fetch(`${process.env.REACT_APP_SERVER}/v5/api/user`, {
@@ -132,9 +141,15 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
 
       if (response.ok) {
         // If deletion is successful, log the user out
+        logInfo("Account deletion successful");
         onDeleteUser();
       } else {
         // Show error alert with a small delay to ensure UI is ready
+        logError("Account deletion failed - server returned error", {
+          status: response.status,
+          statusText: response.statusText,
+        });
+
         setTimeout(() => {
           presentAlert({
             header: "Error",
@@ -145,6 +160,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       }
     } catch (error) {
       console.error("Error deleting account:", error);
+
+      logError("Account deletion failed - exception", {
+        error: String(error),
+        stack: (error as Error).stack,
+      });
 
       // Show error alert with a small delay to ensure UI is ready
       setTimeout(() => {
@@ -259,6 +279,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     AdMob.addListener(RewardAdPluginEvents.FailedToLoad, (error: AdMobError) => {
       // Subscribe prepared rewardVideo
       console.log("Failed to Loaded:", error);
+      logError("Reward ad failed to load", { errorCode: error.code, errorMessage: error.message });
 
       presentAlert({
         header: "Watch a video, raise money for charity!",
@@ -270,16 +291,28 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     AdMob.addListener(RewardAdPluginEvents.Loaded, (info: AdLoadInfo) => {
       // Subscribe prepared rewardVideo
       console.log("Loaded:", info);
+      logDebug("Reward ad loaded successfully", { adUnitId: info.adUnitId });
     });
 
     // Called after the ad is watched
     AdMob.addListener(RewardAdPluginEvents.Rewarded, (rewardItem: AdMobRewardItem) => {
+      logInfo("User rewarded for watching ad", {
+        type: rewardItem.type,
+        amount: rewardItem.amount,
+      });
+
       fetch(`${process.env.REACT_APP_SERVER}/v5/mobile/video-ad-rewarded?access_token=${userAccessToken}&${getUrlPostFix()}`, {
         method: "POST",
       })
         .then((response) => response.json())
-        .then((data) => console.log("Video ad rewarded acknowledged:", data))
-        .catch((error) => console.error("Error acknowledging video ad reward:", error));
+        .then((data) => {
+          console.log("Video ad rewarded acknowledged:", data);
+          logInfo("Video ad reward acknowledged by server", { data });
+        })
+        .catch((error) => {
+          console.error("Error acknowledging video ad reward:", error);
+          logError("Failed to acknowledge video ad reward", { error: String(error) });
+        });
     });
 
     // Cleanup the event listener when the component unmounts
