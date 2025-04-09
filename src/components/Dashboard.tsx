@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { useIonRouter, useIonAlert, IonModal, IonContent } from "@ionic/react";
+import React, { useEffect, useRef, useState } from "react";
+import { useIonRouter, useIonAlert, IonModal, IonContent, IonButton } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError, AdmobConsentStatus } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
 import SelectCause from "./SelectCause";
@@ -18,6 +18,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   const modal = useRef<HTMLIonModalElement>(null);
   const selectCauseModal = useRef<HTMLIonModalElement>(null);
   const desktopEmailModal = useRef<HTMLIonModalElement>(null);
+  const youtubeVideoModal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
 
   // Handle cause selection
@@ -40,6 +41,20 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     modal.current?.dismiss();
     // Present desktop email modal
     desktopEmailModal.current?.present();
+  };
+
+  //
+  // Open YouTube video modal
+  //
+  const openYoutubeVideoModal = () => {
+    youtubeVideoModal.current?.present();
+  };
+
+  //
+  // Close YouTube video modal
+  //
+  const closeYoutubeVideoModal = () => {
+    youtubeVideoModal.current?.dismiss();
   };
 
   //
@@ -98,7 +113,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     setupAdMob();
 
     // Set the ad ID based on the mobile OS
-    let adId = "ca-app-pub-3940256099942544/5224354917";
+    let adId = "ca-app-pub-1918626353776886/7648248705";
 
     if (getMobileOS() === "android") {
       adId = "ca-app-pub-1918626353776886/3338302755";
@@ -119,6 +134,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       logInfo("Reward ad successfully shown");
     } catch (error) {
       logError("Failed to show reward ad", { error: String(error) });
+      // Show YouTube video modal instead when ad fails to load
+      openYoutubeVideoModal();
     }
   };
 
@@ -281,11 +298,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       console.log("Failed to Loaded:", error);
       logError("Reward ad failed to load", { errorCode: error.code, errorMessage: error.message });
 
-      presentAlert({
-        header: "Watch a video, raise money for charity!",
-        message: "No videos available right now, please check back later.",
-        buttons: ["OK"],
-      });
+      // presentAlert({
+      //   header: "Watch a video, raise money for charity!",
+      //   message: "No videos available right now, please check back later.",
+      //   buttons: ["OK"],
+      // });
+
+      // Show YouTube video modal instead of alert
+      openYoutubeVideoModal();
     });
 
     AdMob.addListener(RewardAdPluginEvents.Loaded, (info: AdLoadInfo) => {
@@ -363,6 +383,22 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
           ) : (
             "<p>Error: No Access Token. Please kill app and restart.</p>"
           )}
+        </IonContent>
+      </IonModal>
+
+      {/* Video Modal */}
+      <IonModal ref={youtubeVideoModal} initialBreakpoint={1} breakpoints={[0, 1]} className="youtube-video-modal">
+        <IonContent style={{ "--background": "#000000" }}>
+          <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <div className="video-container" style={{ width: "100%", maxWidth: "800px" }}>
+              <video width="100%" controls autoPlay playsInline style={{ maxWidth: "100%" }} src="https://s3.us-west-2.amazonaws.com/blog.gladly.io/TabforTreesShort.mov">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <IonButton onClick={closeYoutubeVideoModal} style={{ marginTop: "20px" }}>
+              Close
+            </IonButton>
+          </div>
         </IonContent>
       </IonModal>
     </>
