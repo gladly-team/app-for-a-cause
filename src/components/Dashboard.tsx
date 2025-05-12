@@ -109,8 +109,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   const loadRewardAd = async () => {
     logInfo("User requested to watch a reward ad");
 
-    // Initialize AdMob
-    setupAdMob();
+    // // Initialize AdMob
+    // setupAdMob();
 
     // Set the ad ID based on the mobile OS
     let adId = "ca-app-pub-1918626353776886/7648248705";
@@ -283,7 +283,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     }
   }
 
-  // //
+  //
   // Called when the component changes.
   //
   useEffect(() => {
@@ -349,6 +349,9 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
           logError("Failed to acknowledge video ad reward", { error: String(error) });
         });
     });
+
+    // Initialize AdMob
+    setupAdMob();
 
     // Cleanup the event listener when the component unmounts
     return () => {
