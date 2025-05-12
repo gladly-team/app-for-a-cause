@@ -134,6 +134,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       logInfo("Reward ad successfully shown");
     } catch (error) {
       logError("Failed to show reward ad", { error: String(error) });
+
+      // Send message to the child iframe that the video ad has loaded
+      const iframe = document.querySelector("iframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ action: "video-ad-loaded" }, "*");
+        logDebug("Sent video-ad-loaded message to iframe");
+      }
+
       // Show YouTube video modal instead when ad fails to load
       openYoutubeVideoModal();
     }
@@ -312,6 +320,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       // Subscribe prepared rewardVideo
       console.log("Loaded:", info);
       logDebug("Reward ad loaded successfully", { adUnitId: info.adUnitId });
+
+      // Send message to the child iframe that the video ad has loaded
+      const iframe = document.querySelector("iframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ action: "video-ad-loaded" }, "*");
+        logDebug("Sent video-ad-loaded message to iframe");
+      }
     });
 
     // Called after the ad is watched
