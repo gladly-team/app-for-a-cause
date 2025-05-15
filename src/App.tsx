@@ -7,6 +7,7 @@ import Page from "./pages/Page";
 import Games from "./pages/Games";
 import Leaderboard from "./pages/Leaderboard";
 import OneSignal from "onesignal-cordova-plugin";
+//import { Clipboard } from "@capacitor/clipboard";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -28,6 +29,14 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 setupIonicReact();
+
+// const checkClipboard = async () => {
+//   const { type, value } = await Clipboard.read();
+
+//   console.log(`Got ${type} from clipboard: ${value}`);
+
+//   window.open("https://tab.gladly.io/v5/referal-testing", "_system");
+// };
 
 const App: React.FC = () => {
   // Remove this method to stop OneSignal Debugging
