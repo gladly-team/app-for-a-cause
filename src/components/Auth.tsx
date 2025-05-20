@@ -30,9 +30,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       const credential = result.credential;
       if (user && credential) {
         logInfo("Google sign-in successful");
-        //onAuthSuccess();
-        localStorage.setItem("page-refresh", "true");
-        window.open("https://tab.gladly.io/v5/referal-testing", "_system");
+        onAuthSuccess();
       } else {
         logError("Google sign-in failed - incomplete user data", {
           hasUser: !!user,
