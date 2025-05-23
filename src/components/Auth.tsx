@@ -42,6 +42,12 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         error: String(error),
         stack: (error as Error).stack,
       });
+
+      presentAlert({
+        header: "Google Sign-In Failed",
+        message: "Could not complete Google sign-in. Please try again.",
+        buttons: ["OK"],
+      });
     }
   };
 
@@ -67,6 +73,12 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       logError("Facebook sign-in error", {
         error: String(error),
         stack: (error as Error).stack,
+      });
+
+      presentAlert({
+        header: "Facebook Sign-In Failed",
+        message: "Could not complete Facebook sign-in. Please try again.",
+        buttons: ["OK"],
       });
     }
   };
@@ -95,6 +107,12 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       logError("Apple sign-in error", {
         error: String(error),
         stack: (error as Error).stack,
+      });
+
+      presentAlert({
+        header: "Apple Sign-In Failed",
+        message: "Could not complete Apple sign-in. Please try again.",
+        buttons: ["OK"],
       });
     }
   };

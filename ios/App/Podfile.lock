@@ -24,20 +24,20 @@ PODS:
   - CapacitorFirebaseAppCheck (7.0.0):
     - Capacitor
     - FirebaseAppCheck (~> 11.7.0)
-  - CapacitorFirebaseAuthentication (7.0.0):
+  - CapacitorFirebaseAuthentication (7.2.0):
     - Capacitor
-    - CapacitorFirebaseAuthentication/Lite (= 7.0.0)
+    - CapacitorFirebaseAuthentication/Lite (= 7.2.0)
     - FirebaseAuth (~> 11.7.0)
-  - CapacitorFirebaseAuthentication/Facebook (7.0.0):
+  - CapacitorFirebaseAuthentication/Facebook (7.2.0):
     - Capacitor
     - FBSDKCoreKit (= 18.0.0)
     - FBSDKLoginKit (= 18.0.0)
     - FirebaseAuth (~> 11.7.0)
-  - CapacitorFirebaseAuthentication/Google (7.0.0):
+  - CapacitorFirebaseAuthentication/Google (7.2.0):
     - Capacitor
     - FirebaseAuth (~> 11.7.0)
     - GoogleSignIn (= 7.1.0)
-  - CapacitorFirebaseAuthentication/Lite (7.0.0):
+  - CapacitorFirebaseAuthentication/Lite (7.2.0):
     - Capacitor
     - FirebaseAuth (~> 11.7.0)
   - CapacitorHaptics (7.0.0):
@@ -244,7 +244,7 @@ SPEC CHECKSUMS:
   CapacitorCommunityAdmob: 9c0dfcf3a8d4b3fab91f126f722d6f1c4286c0db
   CapacitorCordova: 63d476958d5022d76f197031e8b7ea3519988c64
   CapacitorFirebaseAppCheck: 1a987ff6dc8f96a4920d21a67207b1509301d517
-  CapacitorFirebaseAuthentication: de12e87d5f163efbcd7e20e49e7d74a5482f9743
+  CapacitorFirebaseAuthentication: 99646ed67e49b21cf4cf55911ed53c7dc32c3e53
   CapacitorHaptics: 7be406a91e4eb87287f321c6c68e1709d6837b3a
   CapacitorKeyboard: 4db71e694e7afb5d7c0be09b05495c19f7d6c914
   CapacitorSplashScreen: 7e7a0a1113833032f196b3af6fa437baccacf5bc
