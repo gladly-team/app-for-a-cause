@@ -15,6 +15,8 @@ interface AuthProps {
 //   await StatusBar.setStyle({ style: Style.Dark });
 // };
 
+let isAuthInitialized = false;
+
 const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   const router = useIonRouter();
   const [presentAlert] = useIonAlert();
@@ -23,6 +25,13 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Google Sign In.
   //
   const googleSignIn = async () => {
+    if (isAuthInitialized) {
+      logDebug("Google sign-in already initialized");
+      return;
+    }
+
+    isAuthInitialized = true;
+
     logInfo("Google sign-in attempt initiated");
     try {
       const result = await FirebaseAuthentication.signInWithGoogle();
@@ -37,7 +46,11 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
           hasCredential: !!credential,
         });
       }
+
+      isAuthInitialized = false;
     } catch (error) {
+      isAuthInitialized = false;
+
       logError("Google sign-in error", {
         error: String(error),
         stack: (error as Error).stack,
@@ -55,6 +68,13 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Facebook Sign In.
   //
   const facebookSignIn = async () => {
+    if (isAuthInitialized) {
+      logDebug("Facebook sign-in already initialized");
+      return;
+    }
+
+    isAuthInitialized = true;
+
     logInfo("Facebook sign-in attempt initiated");
     try {
       const result = await FirebaseAuthentication.signInWithFacebook();
@@ -69,7 +89,11 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
           hasCredential: !!credential,
         });
       }
+
+      isAuthInitialized = false;
     } catch (error) {
+      isAuthInitialized = false;
+
       logError("Facebook sign-in error", {
         error: String(error),
         stack: (error as Error).stack,
@@ -87,6 +111,13 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   // Load Apple Sign In.
   //
   const appleSignIn = async () => {
+    if (isAuthInitialized) {
+      logDebug("Apple sign-in already initialized");
+      return;
+    }
+
+    isAuthInitialized = true;
+
     logInfo("Apple sign-in attempt initiated");
     try {
       const result = await FirebaseAuthentication.signInWithApple({
@@ -103,17 +134,21 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
           hasCredential: !!credential,
         });
       }
+
+      isAuthInitialized = false;
     } catch (error) {
+      isAuthInitialized = false;
+
       logError("Apple sign-in error", {
         error: String(error),
         stack: (error as Error).stack,
       });
 
-      presentAlert({
-        header: "Apple Sign-In Failed",
-        message: "Could not complete Apple sign-in. Please try again.",
-        buttons: ["OK"],
-      });
+      // presentAlert({
+      //   header: "Apple Sign-In Failed",
+      //   message: "Could not complete Apple sign-in. Please try again.",
+      //   buttons: ["OK"],
+      // });
     }
   };
 
