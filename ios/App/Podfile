@@ -20,6 +20,7 @@ def capacitor_pods
   pod 'CapacitorHaptics', :path => '../../node_modules/@capacitor/haptics'
   pod 'CapacitorKeyboard', :path => '../../node_modules/@capacitor/keyboard'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
+  pod 'CapacitorBranchDeepLinks', :path => '../../node_modules/capacitor-branch-deep-links'
   pod 'CordovaPluginsStatic', :path => '../capacitor-cordova-ios-plugins'
 end
 

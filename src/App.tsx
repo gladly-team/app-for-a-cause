@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -7,6 +7,8 @@ import Page from "./pages/Page";
 import Games from "./pages/Games";
 import Leaderboard from "./pages/Leaderboard";
 import OneSignal from "onesignal-cordova-plugin";
+import { BranchDeepLinks } from "capacitor-branch-deep-links";
+import { BranchService } from "./services/branch";
 //import { Clipboard } from "@capacitor/clipboard";
 
 /* Core CSS required for Ionic components to work properly */
@@ -39,6 +41,38 @@ setupIonicReact();
 // };
 
 const App: React.FC = () => {
+  // Initialize Branch.io to capture referral data
+  useEffect(() => {
+    const initBranch = async () => {
+      try {
+        // Listen to Branch deep link data
+        await BranchDeepLinks.addListener("init", (event) => {
+          console.log("[Branch init]", event);
+          // Store referral data if available
+          if (event.referringParams) {
+            BranchService.setReferralData({
+              referrer: event.referringParams.referrer,
+              campaign: event.referringParams["~campaign"],
+              feature: event.referringParams["~feature"],
+              channel: event.referringParams["~channel"],
+              stage: event.referringParams["~stage"],
+              tags: event.referringParams["~tags"],
+              data: event.referringParams,
+            });
+          }
+        });
+
+        await BranchDeepLinks.addListener("initError", (error) => {
+          console.error("[Branch init error]", error);
+        });
+      } catch (error) {
+        console.error("Error initializing Branch:", error);
+      }
+    };
+
+    initBranch();
+  }, []);
+
   // Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(6);
 

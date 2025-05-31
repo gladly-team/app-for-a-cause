@@ -8,4 +8,12 @@
     <string name="facebook_app_id">774381839264847</string>
     <string name="fb_login_protocol_scheme">fb774381839264847</string>
     <string name="facebook_client_token">304eb26416c5b38e2d669e76fe789199</string>
+    
+    <!-- Branch -->
+    <string name="branch_key">key_live_oAtcoTikQvdBTpSQTjbfHeaervbIpI2h</string>
+    <string name="branch_test_key">key_test_asAkpKalTBiCNnRORmicTmngFtkQlMR3</string>
+    <bool name="branch_test_mode">false</bool>
+    <string name="applink_host">gladly.app.link</string>
+    <string name="applink_host_alternate">gladly-alternate.app.link</string>
+    <string name="deeplink_scheme">appforacause</string>
 </resources>

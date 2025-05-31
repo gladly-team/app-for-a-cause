@@ -2,6 +2,7 @@ import UIKit
 import Capacitor
 import FirebaseCore
 import FBSDKCoreKit
+import BranchSDK
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -15,6 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
+        
+        // Initialize Branch
+        Branch.getInstance().initSession(launchOptions: launchOptions) { (params, error) in
+            // Handle params if needed for native iOS code
+            print("Branch init params: \(params as? [String: AnyObject] ?? [:])")
+        }
 
         return true
     }
@@ -42,6 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        // Handle Branch deep links
+        let branchHandled = Branch.getInstance().application(app, open: url, options: options)
+        
+        // Handle Facebook URLs
         if ApplicationDelegate.shared.application(
             app,
             open: url,
@@ -49,19 +60,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
         ) {
             return true
-        } else {
-            return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
         }
-    
-        // Called when the app was launched with a url. Feel free to add additional processing here,
-        // but if you want the App API to support tracking app url opens, make sure to keep this call
-        return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
+        
+        // Handle Capacitor URLs
+        let capacitorHandled = ApplicationDelegateProxy.shared.application(app, open: url, options: options)
+        
+        return branchHandled || capacitorHandled
     }
 
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        // Called when the app was launched with an activity, including Universal Links.
-        // Feel free to add additional processing here, but if you want the App API to support
-        // tracking app url opens, make sure to keep this call
-        return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+        // Handle Branch Universal Links
+        let branchHandled = Branch.getInstance().continue(userActivity)
+        
+        // Handle Capacitor URLs
+        let capacitorHandled = ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+        
+        return branchHandled || capacitorHandled
     }
 }

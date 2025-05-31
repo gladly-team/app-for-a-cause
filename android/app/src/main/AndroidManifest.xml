@@ -20,6 +20,24 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+            <!-- Branch URI Scheme -->
+            <intent-filter>
+                <data android:scheme="@string/deeplink_scheme" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+            
+            <!-- Branch App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="@string/applink_host" />
+                <data android:scheme="https" android:host="@string/applink_host_alternate" />
+                <data android:scheme="https" android:host="gladly.test-app.link" />
+            </intent-filter>
         </activity>
 
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">

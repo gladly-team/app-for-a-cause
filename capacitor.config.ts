@@ -32,6 +32,10 @@ const config: CapacitorConfig = {
       layoutName: "launch_screen",
       useDialog: true,
     },
+    BranchDeepLinks: {
+      productionKey: "key_live_oAtcoTikQvdBTpSQTjbfHeaervbIpI2h",
+      testKey: "key_test_asAkpKalTBiCNnRORmicTmngFtkQlMR3",
+    },
   },
 
   ios: {

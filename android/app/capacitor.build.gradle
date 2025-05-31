@@ -19,6 +19,7 @@ dependencies {
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-splash-screen')
     implementation project(':capawesome-capacitor-android-edge-to-edge-support')
+    implementation project(':capacitor-branch-deep-links')
     implementation "com.onesignal:OneSignal:5.1.29"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.10"
 }

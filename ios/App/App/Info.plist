@@ -104,5 +104,18 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true />
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_oAtcoTikQvdBTpSQTjbfHeaervbIpI2h</string>
+		<key>test</key>
+		<string>key_test_asAkpKalTBiCNnRORmicTmngFtkQlMR3</string>
+	</dict>
+	<key>branch_universal_link_domains</key>
+	<array>
+		<string>gladly.app.link</string>
+		<string>gladly-alternate.app.link</string>
+		<string>gladly.test-app.link</string>
+	</array>
 </dict>
 </plist>

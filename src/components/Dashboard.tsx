@@ -5,6 +5,7 @@ import { Capacitor } from "@capacitor/core";
 import SelectCause from "./SelectCause";
 import { getUrlPostFix } from "../services/url";
 import { logInfo, logError, logDebug } from "../services/logService";
+import { BranchService } from "../services/branch";
 import "./Dashboard.css";
 
 interface DashboardProps {
@@ -56,6 +57,51 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   const closeYoutubeVideoModal = () => {
     youtubeVideoModal.current?.dismiss();
   };
+
+  // //
+  // // Handle generating a referral link
+  // //
+  // const handleGenerateReferralLink = async (userId: string, username?: string) => {
+  //   try {
+  //     logInfo("Generating referral link", { userId, username });
+  //     const link = await BranchService.createReferralLink(userId, username);
+
+  //     // Send the generated link back to the iframe
+  //     const iframe = document.querySelector("iframe");
+  //     if (iframe && iframe.contentWindow) {
+  //       iframe.contentWindow.postMessage({
+  //         action: "referral-link-generated",
+  //         link
+  //       }, "*");
+  //       logDebug("Sent referral link to iframe", { link });
+  //     }
+  //   } catch (error) {
+  //     logError("Failed to generate referral link", { error: String(error) });
+  //     presentAlert({
+  //       header: "Error",
+  //       message: "Failed to generate referral link. Please try again.",
+  //       buttons: ["OK"],
+  //     });
+  //   }
+  // };
+
+  // //
+  // // Handle sharing a referral link
+  // //
+  // const handleShareReferralLink = async (userId: string, username?: string) => {
+  //   try {
+  //     logInfo("Sharing referral link", { userId, username });
+  //     await BranchService.shareReferralLink(userId, username);
+  //     logDebug("Referral link shared successfully");
+  //   } catch (error) {
+  //     logError("Failed to share referral link", { error: String(error) });
+  //     presentAlert({
+  //       header: "Error",
+  //       message: "Failed to share referral link. Please try again.",
+  //       buttons: ["OK"],
+  //     });
+  //   }
+  // };
 
   //
   // Get the user's mobile OS
@@ -277,6 +323,16 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       case "mobile-screen-logout":
         logOut();
         break;
+
+      // // Generate referral link
+      // case "mobile-generate-referral-link":
+      //   handleGenerateReferralLink(event.data.userId, event.data.username);
+      //   break;
+
+      // // Share referral link
+      // case "mobile-share-referral-link":
+      //   handleShareReferralLink(event.data.userId, event.data.username);
+      //   break;
 
       default:
         break;

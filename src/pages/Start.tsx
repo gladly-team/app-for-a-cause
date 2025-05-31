@@ -10,6 +10,8 @@ import { SplashScreen } from "@capacitor/splash-screen";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { getAccessToken, initializeFirebase, signOut, deleteUser } from "../services/firebaseAuth";
 import OneSignal from "onesignal-cordova-plugin";
+import { BranchService } from "../services/branch";
+import { logDebug } from "../services/logService";
 import "./Start.css";
 
 interface UserData {
@@ -76,11 +78,25 @@ const Start: React.FC = () => {
 
   // Fetch user data from API
   const fetchUserData = async (token: string) => {
+    let campaign = "";
+
+    // Add all referral data if available
+    const referralData = BranchService.getReferralData();
+
+    if (referralData) {
+      if (referralData.campaign) {
+        campaign = encodeURIComponent(referralData.campaign);
+      }
+    }
+
+    logDebug("Fetching user data with campaign: " + campaign);
+
     try {
       const response = await fetch(`${process.env.REACT_APP_SERVER}/v5/api/user`, {
         headers: {
           "X-Platform": "mobile",
           "X-Platform-Type": Capacitor.getPlatform(),
+          "X-Campaign": campaign,
           Authorization: `Bearer ${token}`,
         },
       });

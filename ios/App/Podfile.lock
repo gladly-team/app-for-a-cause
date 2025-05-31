@@ -9,9 +9,13 @@ PODS:
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
     - PromisesObjC (~> 2.4)
+  - BranchSDK (3.12.1)
   - Capacitor (7.0.1):
     - CapacitorCordova
   - CapacitorApp (7.0.0):
+    - Capacitor
+  - CapacitorBranchDeepLinks (8.4.0):
+    - BranchSDK
     - Capacitor
   - CapacitorBrowser (7.0.0):
     - Capacitor
@@ -169,6 +173,7 @@ PODS:
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
+  - CapacitorBranchDeepLinks (from `../../node_modules/capacitor-branch-deep-links`)
   - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
   - "CapacitorClipboard (from `../../node_modules/@capacitor/clipboard`)"
   - "CapacitorCommunityAdmob (from `../../node_modules/@capacitor-community/admob`)"
@@ -187,6 +192,7 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - AppCheckCore
+    - BranchSDK
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
@@ -213,6 +219,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorApp:
     :path: "../../node_modules/@capacitor/app"
+  CapacitorBranchDeepLinks:
+    :path: "../../node_modules/capacitor-branch-deep-links"
   CapacitorBrowser:
     :path: "../../node_modules/@capacitor/browser"
   CapacitorClipboard:
@@ -237,8 +245,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
+  BranchSDK: 7135af6602a105fa6be3ad6c606a7f78b0131b5d
   Capacitor: de199cba6c8b20995428ad0b7cb0bc6ca625ffd4
   CapacitorApp: 9cb31064a6c6bb2b1438583733a7bf45557fc1da
+  CapacitorBranchDeepLinks: fc90bc2b695ca96690b5f150ac2c2aed4af0a7ba
   CapacitorBrowser: 55c21db47416dcc8fc3b623e18fd7d09acb26081
   CapacitorClipboard: 70bfdb42b877b320a6e511ab94fa7a6a55d57ecb
   CapacitorCommunityAdmob: 9c0dfcf3a8d4b3fab91f126f722d6f1c4286c0db
@@ -270,6 +280,6 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
 
-PODFILE CHECKSUM: 90d312acb5566e66e78777ca402273c2612291f7
+PODFILE CHECKSUM: f57ac5c456be5e13044f39c0fbebc84c8dd8acc3
 
 COCOAPODS: 1.16.2

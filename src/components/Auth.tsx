@@ -5,6 +5,7 @@ import { getUrlPostFix } from "../services/url";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { useIonAlert, useIonRouter } from "@ionic/react";
 import { logInfo, logError, logDebug } from "../services/logService";
+import { BranchService } from "../services/branch";
 
 interface AuthProps {
   onAuthSuccess: () => void;
@@ -160,6 +161,58 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     router.push("/page");
   };
 
+  // Build the login URL with all referral data
+  const buildLoginUrl = () => {
+    let url = `${process.env.REACT_APP_SERVER}/v5/mobile/login?${getUrlPostFix()}`;
+
+    // Add all referral data if available
+    const referralData = BranchService.getReferralData();
+
+    logDebug("Building login URL with referral data: " + referralData);
+
+    if (referralData) {
+      // Add each piece of referral data as a URL parameter
+      if (referralData.referrer) {
+        url += `&referrer=${encodeURIComponent(referralData.referrer)}`;
+      }
+      if (referralData.campaign) {
+        url += `&campaign=${encodeURIComponent(referralData.campaign)}`;
+      }
+      if (referralData.feature) {
+        url += `&feature=${encodeURIComponent(referralData.feature)}`;
+      }
+      if (referralData.channel) {
+        url += `&channel=${encodeURIComponent(referralData.channel)}`;
+      }
+      if (referralData.stage) {
+        url += `&stage=${encodeURIComponent(referralData.stage)}`;
+      }
+      if (referralData.tags && Array.isArray(referralData.tags)) {
+        url += `&tags=${encodeURIComponent(referralData.tags.join(","))}`;
+      }
+      // Pass any additional custom data as a JSON string
+      if (referralData.data) {
+        const customData = { ...referralData.data };
+        // Remove the standard Branch parameters we've already added
+        delete customData.referrer;
+        delete customData["~campaign"];
+        delete customData["~feature"];
+        delete customData["~channel"];
+        delete customData["~stage"];
+        delete customData["~tags"];
+
+        // Only add if there's remaining custom data
+        if (Object.keys(customData).length > 0) {
+          url += `&branchData=${encodeURIComponent(JSON.stringify(customData))}`;
+        }
+      }
+    }
+
+    logDebug("Final login URL: " + url);
+
+    return url;
+  };
+
   //
   // Receive messages from the webserver Web View
   //
@@ -208,7 +261,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     };
   }, []);
 
-  return <iframe src={`${process.env.REACT_APP_SERVER}/v5/mobile/login?${getUrlPostFix()}`} width="100%" height="100%" frameBorder="0" />;
+  return <iframe src={buildLoginUrl()} width="100%" height="100%" style={{ border: "none" }} />;
 };
 
 export default Auth;
