@@ -13,7 +13,7 @@
     <string name="branch_key">key_live_oAtcoTikQvdBTpSQTjbfHeaervbIpI2h</string>
     <string name="branch_test_key">key_test_asAkpKalTBiCNnRORmicTmngFtkQlMR3</string>
     <bool name="branch_test_mode">false</bool>
-    <string name="applink_host">gladly.app.link</string>
-    <string name="applink_host_alternate">gladly-alternate.app.link</string>
+    <string name="applink_host">azy26.app.link</string>
+    <string name="applink_host_alternate">azy26-alternate.app.link</string>
     <string name="deeplink_scheme">appforacause</string>
 </resources>

@@ -7,8 +7,9 @@ android {
         applicationId "io.gladly.appforacause"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.7"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -40,6 +41,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1") // AAID
+    implementation 'androidx.multidex:multidex:2.0.1' // Only required if your minSDKVersion is 20 or lower
 }
 
 apply from: 'capacitor.build.gradle'
