@@ -5,6 +5,7 @@ import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { getUrlPostFix } from "../services/url";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
+import { Capacitor } from "@capacitor/core";
 
 const Page: React.FC = () => {
   const router = useIonRouter();
@@ -14,9 +15,28 @@ const Page: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string | undefined>();
 
   //
+  // Get the user's mobile OS
+  //
+  const getMobileOS = () => {
+    if (Capacitor.getPlatform() === "android") {
+      return "android";
+    } else if (Capacitor.getPlatform() === "ios") {
+      return "ios";
+    }
+    return "unknown";
+  };
+
+  //
   // Got back to the page we came from.
   //
   const goBack = () => {
+    const forwardPageNoRefresh = localStorage.getItem("forward-page-no-refresh");
+
+    if (forwardPageNoRefresh) {
+      localStorage.removeItem("forward-page-no-refresh");
+      router.goBack();
+      return;
+    }
     localStorage.setItem("page-refresh", "true");
     router.goBack();
   };
@@ -84,6 +104,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     setTitle(localStorage.getItem("forward-page-title") || "");
     setUrl(localStorage.getItem("forward-page-iframe-url") || "");
+    setAccessToken(localStorage.getItem("forward-page-access-token") || undefined);
 
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
@@ -108,7 +129,12 @@ const Page: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen>
         {url ? (
-          <iframe src={`${url}?access_token=${accessToken}&${getUrlPostFix()}`} frameBorder="0" allowFullScreen style={{ width: "100%", height: "100%" }}></iframe>
+          <iframe
+            src={`${url}?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+            frameBorder="0"
+            allowFullScreen
+            style={{ width: "100%", height: "100%" }}
+          ></iframe>
         ) : (
           <p>Loading...</p>
         )}

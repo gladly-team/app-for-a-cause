@@ -271,6 +271,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
 
   //
   // Function to handle received messages from the iframe
+  // To open a dynamic page, send: { action: "mobile-open-page", url: "https://example.com/page", title: "Page Title" }
   //
   function receiveMessage(event: any) {
     // TODO(spicer): Add origin check for added security
@@ -280,7 +281,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     if (typeof event.data.action === "undefined") return;
 
     // Log or use the received message
-    //console.log("Received message from child:", event.data, event.origin);
+    // console.log("Received message from child:", event.data, event.origin);
 
     // Switch based on which action was sent in.
     switch (event.data.action) {
@@ -333,6 +334,29 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
       // case "mobile-share-referral-link":
       //   handleShareReferralLink(event.data.userId, event.data.username);
       //   break;
+
+      // Generic page navigation with dynamic iframe URL
+      case "mobile-open-page":
+        if (event.data.url && event.data.title) {
+          // Store the page info in localStorage for the Page component to use
+          localStorage.setItem("forward-page-iframe-url", event.data.url);
+          localStorage.setItem("forward-page-title", event.data.title);
+          localStorage.setItem("forward-page-access-token", userAccessToken);
+          localStorage.setItem("forward-page-no-refresh", "true");
+
+          // Navigate to the Page component
+          router.push("/page");
+
+          logDebug("Opening dynamic page", {
+            url: event.data.url,
+            title: event.data.title,
+          });
+        } else {
+          logError("Missing required data for mobile-open-page", {
+            data: event.data,
+          });
+        }
+        break;
 
       default:
         break;
