@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getUrlPostFix } from "../services/url";
 //import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 //import { StatusBar, Style } from "@capacitor/status-bar";
@@ -21,6 +21,7 @@ let isAuthInitialized = false;
 const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   const router = useIonRouter();
   const [presentAlert] = useIonAlert();
+  const [loginUrl, setLoginUrl] = useState<string>("");
 
   //
   // Load Google Sign In.
@@ -162,8 +163,9 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   };
 
   // Build the login URL with all referral data
-  const buildLoginUrl = () => {
-    let url = `${process.env.REACT_APP_SERVER}/v5/mobile/login?${getUrlPostFix()}`;
+  const buildLoginUrl = async () => {
+    const postfix = await getUrlPostFix();
+    let url = `${process.env.REACT_APP_SERVER}/v5/mobile/login?${postfix}`;
 
     // Add all referral data if available
     const referralData = BranchService.getReferralData();
@@ -254,6 +256,12 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   //
   useEffect(() => {
     logInfo("Auth component mounted");
+    
+    // Build and set the login URL
+    buildLoginUrl().then(url => {
+      setLoginUrl(url);
+    });
+    
     window.addEventListener("message", receiveMessage, false);
     return () => {
       logDebug("Auth component unmounting");
@@ -261,7 +269,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
     };
   }, []);
 
-  return <iframe src={buildLoginUrl()} width="100%" height="100%" style={{ border: "none" }} />;
+  return loginUrl ? <iframe src={loginUrl} width="100%" height="100%" style={{ border: "none" }} /> : <p>Loading...</p>;
 };
 
 export default Auth;

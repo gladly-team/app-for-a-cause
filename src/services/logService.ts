@@ -1,5 +1,6 @@
 import { getAccessToken } from "./firebaseAuth";
 import { Capacitor } from "@capacitor/core";
+import { App } from "@capacitor/app";
 
 /**
  * Log levels to categorize the severity of log messages
@@ -35,6 +36,9 @@ export const sendLog = async (level: LogLevel, message: string, metadata?: Recor
 
     // Get platform information
     const platform = Capacitor.getPlatform();
+    
+    // Get app version
+    const appInfo = await App.getInfo();
 
     // Prepare the log data
     const logData: LogData = {
@@ -43,6 +47,7 @@ export const sendLog = async (level: LogLevel, message: string, metadata?: Recor
       timestamp: new Date().toISOString(),
       metadata: {
         platform,
+        app_version: appInfo.version,
         ...(metadata || {}),
       },
     };

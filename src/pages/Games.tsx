@@ -22,6 +22,7 @@ const Games: React.FC = () => {
   const router = useIonRouter();
   const modal = useRef<HTMLIonModalElement>(null);
   const [accessToken, setAccessToken] = useState<string | undefined>();
+  const [urlPostFix, setUrlPostFix] = useState<string>("");
 
   //
   // Take the user to the dashboard screen.
@@ -73,6 +74,11 @@ const Games: React.FC = () => {
       setAccessToken(token);
     };
     fetchToken();
+    
+    // Load URL postfix
+    getUrlPostFix().then(postfix => {
+      setUrlPostFix(postfix);
+    });
 
     // Cleanup the event listener when the component unmounts
     return () => {
@@ -93,9 +99,9 @@ const Games: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {accessToken ? (
+        {accessToken && urlPostFix ? (
           <iframe
-            src={`${process.env.REACT_APP_SERVER}/v5/mobile/games?access_token=${accessToken}&${getUrlPostFix()}`}
+            src={`${process.env.REACT_APP_SERVER}/v5/mobile/games?access_token=${accessToken}&${urlPostFix}`}
             frameBorder="0"
             allowFullScreen
             style={{ width: "100%", height: "100%" }}

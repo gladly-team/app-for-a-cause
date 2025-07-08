@@ -13,6 +13,7 @@ const Page: React.FC = () => {
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [accessToken, setAccessToken] = useState<string | undefined>();
+  const [urlPostFix, setUrlPostFix] = useState<string>("");
 
   //
   // Get the user's mobile OS
@@ -105,6 +106,11 @@ const Page: React.FC = () => {
     setTitle(localStorage.getItem("forward-page-title") || "");
     setUrl(localStorage.getItem("forward-page-iframe-url") || "");
     setAccessToken(localStorage.getItem("forward-page-access-token") || undefined);
+    
+    // Load URL postfix
+    getUrlPostFix().then(postfix => {
+      setUrlPostFix(postfix);
+    });
 
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
@@ -128,9 +134,9 @@ const Page: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {url ? (
+        {url && urlPostFix ? (
           <iframe
-            src={`${url}?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+            src={`${url}?access_token=${accessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
             frameBorder="0"
             allowFullScreen
             style={{ width: "100%", height: "100%" }}

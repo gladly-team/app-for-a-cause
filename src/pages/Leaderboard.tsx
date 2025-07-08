@@ -12,6 +12,7 @@ const Leaderboard: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const desktopEmailModal = useRef<HTMLIonModalElement>(null);
   const [accessToken, setAccessToken] = useState<string | undefined>();
+  const [urlPostFix, setUrlPostFix] = useState<string>("");
 
   //
   // Returns the mobile OS
@@ -87,6 +88,11 @@ const Leaderboard: React.FC = () => {
       setAccessToken(token);
     };
     fetchToken();
+    
+    // Load URL postfix
+    getUrlPostFix().then(postfix => {
+      setUrlPostFix(postfix);
+    });
 
     // Cleanup the event listener when the component unmounts
     return () => {
@@ -97,9 +103,9 @@ const Leaderboard: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        {accessToken ? (
+        {accessToken && urlPostFix ? (
           <iframe
-            src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+            src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard?access_token=${accessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
             frameBorder="0"
             allowFullScreen
             style={{ width: "100%", height: "100%" }}
@@ -110,9 +116,9 @@ const Leaderboard: React.FC = () => {
 
         <IonModal ref={modal} initialBreakpoint={1} breakpoints={[0, 1]}>
           <IonContent>
-            {accessToken ? (
+            {accessToken && urlPostFix ? (
               <iframe
-                src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard-learn-levels?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+                src={`${process.env.REACT_APP_SERVER}/v5/mobile/leaderboard-learn-levels?access_token=${accessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
                 frameBorder="0"
                 allowFullScreen
                 style={{ width: "100%", height: "100%" }}
@@ -126,9 +132,9 @@ const Leaderboard: React.FC = () => {
 
       <IonModal ref={desktopEmailModal} initialBreakpoint={1} breakpoints={[0, 1]} className="desktop-email-modal">
         <IonContent>
-          {accessToken ? (
+          {accessToken && urlPostFix ? (
             <iframe
-              src={`${process.env.REACT_APP_SERVER}/v5/mobile/desktop-email?access_token=${accessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/desktop-email?access_token=${accessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
               frameBorder="0"
               allowFullScreen
               style={{ width: "100%", height: "100%" }}

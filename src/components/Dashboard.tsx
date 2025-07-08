@@ -22,6 +22,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   const desktopEmailModal = useRef<HTMLIonModalElement>(null);
   const youtubeVideoModal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
+  const [urlPostFix, setUrlPostFix] = useState<string>("");
 
   // Handle cause selection
   const handleCauseSelect = () => {
@@ -404,6 +405,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     // Set the background color and status bar style
     //setBackgroundColor();
 
+    // Load URL postfix
+    getUrlPostFix().then(postfix => {
+      setUrlPostFix(postfix);
+    });
+
     // Add event listener when the component mounts
     window.addEventListener("message", receiveMessage, false);
 
@@ -436,13 +442,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     });
 
     // Called after the ad is watched
-    AdMob.addListener(RewardAdPluginEvents.Rewarded, (rewardItem: AdMobRewardItem) => {
+    AdMob.addListener(RewardAdPluginEvents.Rewarded, async (rewardItem: AdMobRewardItem) => {
       logInfo("User rewarded for watching ad", {
         type: rewardItem.type,
         amount: rewardItem.amount,
       });
 
-      fetch(`${process.env.REACT_APP_SERVER}/v5/mobile/video-ad-rewarded?access_token=${userAccessToken}&${getUrlPostFix()}`, {
+      const postfix = await getUrlPostFix();
+      fetch(`${process.env.REACT_APP_SERVER}/v5/mobile/video-ad-rewarded?access_token=${userAccessToken}&${postfix}`, {
         method: "POST",
       })
         .then((response) => response.json())
@@ -468,7 +475,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   return (
     <>
       <iframe
-        src={`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+        src={`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
         frameBorder="0"
         allowFullScreen
         style={{ width: "100%", height: "100%" }}
@@ -478,7 +485,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
         <IonContent>
           {userAccessToken ? (
             <iframe
-              src={`${process.env.REACT_APP_SERVER}/v5/mobile/settings?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/settings?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
               frameBorder="0"
               allowFullScreen
               style={{ width: "100%", height: "100%" }}
@@ -499,7 +506,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
         <IonContent>
           {userAccessToken ? (
             <iframe
-              src={`${process.env.REACT_APP_SERVER}/v5/mobile/desktop-email?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${getUrlPostFix()}`}
+              src={`${process.env.REACT_APP_SERVER}/v5/mobile/desktop-email?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
               frameBorder="0"
               allowFullScreen
               style={{ width: "100%", height: "100%" }}
