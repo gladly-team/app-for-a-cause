@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useIonRouter, useIonAlert, IonModal, IonContent, IonButton } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError, AdmobConsentStatus } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
+import { Browser } from "@capacitor/browser";
 import SelectCause from "./SelectCause";
 import { getUrlPostFix } from "../services/url";
 import { logInfo, logError, logDebug } from "../services/logService";
@@ -272,6 +273,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   //
   // Function to handle received messages from the iframe
   // To open a dynamic page, send: { action: "mobile-open-page", url: "https://example.com/page", title: "Page Title" }
+  // To open an external URL, send: { action: "mobile-open-external-url", url: "https://example.com" }
   //
   function receiveMessage(event: any) {
     // TODO(spicer): Add origin check for added security
@@ -353,6 +355,30 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
           });
         } else {
           logError("Missing required data for mobile-open-page", {
+            data: event.data,
+          });
+        }
+        break;
+
+      // Open external URL in system browser
+      case "mobile-open-external-url":
+        if (event.data.url) {
+          Browser.open({
+            url: event.data.url,
+          })
+            .then(() => {
+              logDebug("Opened external URL", {
+                url: event.data.url,
+              });
+            })
+            .catch((error: any) => {
+              logError("Failed to open external URL", {
+                url: event.data.url,
+                error: error.message || error,
+              });
+            });
+        } else {
+          logError("Missing required URL for mobile-open-external-url", {
             data: event.data,
           });
         }
