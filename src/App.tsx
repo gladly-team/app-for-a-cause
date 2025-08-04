@@ -9,6 +9,7 @@ import Leaderboard from "./pages/Leaderboard";
 import OneSignal from "onesignal-cordova-plugin";
 import { BranchDeepLinks } from "capacitor-branch-deep-links";
 import { BranchService } from "./services/branch";
+import { initFacebookPixel, trackActivateApp } from "./utils/facebookPixel";
 //import { Clipboard } from "@capacitor/clipboard";
 
 /* Core CSS required for Ionic components to work properly */
@@ -41,6 +42,12 @@ setupIonicReact();
 // };
 
 const App: React.FC = () => {
+  // Initialize Facebook Pixel on app mount
+  useEffect(() => {
+    initFacebookPixel();
+    trackActivateApp();
+  }, []);
+
   // Initialize Branch.io to capture referral data
   useEffect(() => {
     const initBranch = async () => {
