@@ -9,7 +9,7 @@ import Leaderboard from "./pages/Leaderboard";
 import OneSignal from "onesignal-cordova-plugin";
 import { BranchDeepLinks } from "capacitor-branch-deep-links";
 import { BranchService } from "./services/branch";
-import { initFacebookPixel, trackActivateApp } from "./utils/facebookPixel";
+import { initFacebookPixel, trackActivateApp } from "./services/facebookPixel";
 //import { Clipboard } from "@capacitor/clipboard";
 
 /* Core CSS required for Ionic components to work properly */

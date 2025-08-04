@@ -3,8 +3,8 @@
  * Only initializes on web platform to avoid issues with native apps
  */
 
-import { Capacitor } from '@capacitor/core';
-import ReactPixel from 'react-facebook-pixel';
+import { Capacitor } from "@capacitor/core";
+import ReactPixel from "react-facebook-pixel";
 
 /**
  * Interface for Facebook Pixel event data
@@ -27,14 +27,13 @@ export interface EventData {
 
 /**
  * Facebook Pixel ID - Replace with actual pixel ID
- * TODO: Move this to environment configuration for security
  */
-const FACEBOOK_PIXEL_ID = '[REPLACE_WITH_ACTUAL_PIXEL_ID]';
+const FACEBOOK_PIXEL_ID = "1813501258922708";
 
 /**
  * Check if we're in development mode
  */
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.NODE_ENV === "development";
 
 /**
  * Check if Facebook Pixel is initialized
@@ -49,7 +48,7 @@ export const initFacebookPixel = (): void => {
   try {
     // Only initialize on web platform
     const platform = Capacitor.getPlatform();
-    if (platform !== 'web') {
+    if (platform !== "web") {
       if (isDevelopment) {
         console.log(`[Facebook Pixel] Skipping initialization on ${platform} platform`);
       }
@@ -66,11 +65,11 @@ export const initFacebookPixel = (): void => {
     isInitialized = true;
 
     if (isDevelopment) {
-      console.log('[Facebook Pixel] Initialized successfully');
-      console.log('[Facebook Pixel] Test with Facebook Pixel Helper Chrome extension');
+      console.log("[Facebook Pixel] Initialized successfully");
+      console.log("[Facebook Pixel] Test with Facebook Pixel Helper Chrome extension");
     }
   } catch (error) {
-    console.error('[Facebook Pixel] Initialization error:', error);
+    console.error("[Facebook Pixel] Initialization error:", error);
   }
 };
 
@@ -83,7 +82,7 @@ export const trackEvent = (event: string, data?: EventData): void => {
   try {
     // Only track on web platform
     const platform = Capacitor.getPlatform();
-    if (platform !== 'web' || !isInitialized) {
+    if (platform !== "web" || !isInitialized) {
       if (isDevelopment) {
         console.log(`[Facebook Pixel] Event '${event}' not tracked - Platform: ${platform}, Initialized: ${isInitialized}`);
       }
@@ -108,17 +107,17 @@ export const trackPageView = (): void => {
   try {
     // Only track on web platform
     const platform = Capacitor.getPlatform();
-    if (platform !== 'web' || !isInitialized) {
+    if (platform !== "web" || !isInitialized) {
       return;
     }
 
     ReactPixel.pageView();
 
     if (isDevelopment) {
-      console.log('[Facebook Pixel] Page view tracked');
+      console.log("[Facebook Pixel] Page view tracked");
     }
   } catch (error) {
-    console.error('[Facebook Pixel] Error tracking page view:', error);
+    console.error("[Facebook Pixel] Error tracking page view:", error);
   }
 };
 
@@ -128,7 +127,7 @@ export const trackPageView = (): void => {
  * @param data - Optional registration data
  */
 export const trackCompleteRegistration = (data?: EventData): void => {
-  trackEvent('CompleteRegistration', data);
+  trackEvent("CompleteRegistration", data);
 };
 
 /**
@@ -138,8 +137,8 @@ export const trackCompleteRegistration = (data?: EventData): void => {
  * @param currency - Currency code (e.g., 'USD')
  * @param additionalData - Additional purchase data
  */
-export const trackPurchase = (value: number, currency = 'USD', additionalData?: EventData): void => {
-  trackEvent('Purchase', {
+export const trackPurchase = (value: number, currency = "USD", additionalData?: EventData): void => {
+  trackEvent("Purchase", {
     value,
     currency,
     ...additionalData,
@@ -151,7 +150,7 @@ export const trackPurchase = (value: number, currency = 'USD', additionalData?: 
  * Called on first app open/activation
  */
 export const trackActivateApp = (): void => {
-  trackEvent('ActivateApp');
+  trackEvent("ActivateApp");
 };
 
 /**
@@ -160,7 +159,7 @@ export const trackActivateApp = (): void => {
  * @param data - Optional payment info data
  */
 export const trackAddPaymentInfo = (data?: EventData): void => {
-  trackEvent('AddPaymentInfo', data);
+  trackEvent("AddPaymentInfo", data);
 };
 
 /**
@@ -170,12 +169,8 @@ export const trackAddPaymentInfo = (data?: EventData): void => {
  * @param contentCategory - Category of the content
  * @param additionalData - Additional content data
  */
-export const trackViewContent = (
-  contentName: string,
-  contentCategory?: string,
-  additionalData?: EventData
-): void => {
-  trackEvent('ViewContent', {
+export const trackViewContent = (contentName: string, contentCategory?: string, additionalData?: EventData): void => {
+  trackEvent("ViewContent", {
     content_name: contentName,
     content_category: contentCategory,
     ...additionalData,
@@ -189,12 +184,8 @@ export const trackViewContent = (
  * @param currency - Currency code (e.g., 'USD')
  * @param additionalData - Additional checkout data
  */
-export const trackInitiateCheckout = (
-  value?: number,
-  currency = 'USD',
-  additionalData?: EventData
-): void => {
-  trackEvent('InitiateCheckout', {
+export const trackInitiateCheckout = (value?: number, currency = "USD", additionalData?: EventData): void => {
+  trackEvent("InitiateCheckout", {
     value,
     currency,
     ...additionalData,
