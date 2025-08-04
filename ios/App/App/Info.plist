@@ -44,6 +44,8 @@
 	<string>304eb26416c5b38e2d669e76fe789199</string>
 	<key>FacebookDisplayName</key>
 	<string>For a Cause</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1918626353776886~5864130414</string>
 	<key>GADIsAdManagerApp</key>

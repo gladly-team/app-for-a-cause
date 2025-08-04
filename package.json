@@ -1,6 +1,6 @@
 {
   "name": "app-for-a-cause",
-  "version": "1.0.7",
+  "version": "1.0.12",
   "private": true,
   "dependencies": {
     "@capacitor-community/admob": "^7.0.0-0",
