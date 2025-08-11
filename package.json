@@ -1,6 +1,6 @@
 {
   "name": "app-for-a-cause",
-  "version": "1.0.7",
+  "version": "1.0.12",
   "private": true,
   "dependencies": {
     "@capacitor-community/admob": "^7.0.0-0",
@@ -37,6 +37,7 @@
     "onesignal-cordova-plugin": "^5.2.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-facebook-pixel": "^1.0.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.0",

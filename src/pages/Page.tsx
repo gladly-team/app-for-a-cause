@@ -6,6 +6,8 @@ import { getUrlPostFix } from "../services/url";
 import { IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 import { Capacitor } from "@capacitor/core";
+import { trackCompleteRegistration } from "../services/facebookPixel";
+import { logInfo } from "../services/logService";
 
 const Page: React.FC = () => {
   const router = useIonRouter();
@@ -62,6 +64,13 @@ const Page: React.FC = () => {
           const createResult = await FirebaseAuthentication.createUserWithEmailAndPassword({ email, password });
           const user = createResult.user;
           if (user) {
+            // Track Facebook Pixel CompleteRegistration event for new email users
+            trackCompleteRegistration({
+              mobile: true,
+              registration_method: "email",
+            });
+            logInfo("Tracked CompleteRegistration for new email user");
+
             goBack();
           }
         } catch (createError) {
@@ -106,9 +115,9 @@ const Page: React.FC = () => {
     setTitle(localStorage.getItem("forward-page-title") || "");
     setUrl(localStorage.getItem("forward-page-iframe-url") || "");
     setAccessToken(localStorage.getItem("forward-page-access-token") || undefined);
-    
+
     // Load URL postfix
-    getUrlPostFix().then(postfix => {
+    getUrlPostFix().then((postfix) => {
       setUrlPostFix(postfix);
     });
 

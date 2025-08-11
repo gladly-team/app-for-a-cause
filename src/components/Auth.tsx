@@ -6,6 +6,7 @@ import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { useIonAlert, useIonRouter } from "@ionic/react";
 import { logInfo, logError, logDebug } from "../services/logService";
 import { BranchService } from "../services/branch";
+import { trackCompleteRegistration } from "../services/facebookPixel";
 
 interface AuthProps {
   onAuthSuccess: () => void;
@@ -41,6 +42,16 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       const credential = result.credential;
       if (user && credential) {
         logInfo("Google sign-in successful");
+
+        // Track Facebook Pixel CompleteRegistration event for new users
+        if (result.additionalUserInfo?.isNewUser) {
+          trackCompleteRegistration({
+            mobile: true,
+            registration_method: "google",
+          });
+          logInfo("Tracked CompleteRegistration for new Google user");
+        }
+
         onAuthSuccess();
       } else {
         logError("Google sign-in failed - incomplete user data", {
@@ -84,6 +95,16 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       const credential = result.credential;
       if (user && credential) {
         logInfo("Facebook sign-in successful");
+
+        // Track Facebook Pixel CompleteRegistration event for new users
+        if (result.additionalUserInfo?.isNewUser) {
+          trackCompleteRegistration({
+            mobile: true,
+            registration_method: "facebook",
+          });
+          logInfo("Tracked CompleteRegistration for new Facebook user");
+        }
+
         onAuthSuccess();
       } else {
         logError("Facebook sign-in failed - incomplete user data", {
@@ -129,6 +150,16 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
       const credential = result.credential;
       if (user && credential) {
         logInfo("Apple sign-in successful");
+
+        // Track Facebook Pixel CompleteRegistration event for new users
+        if (result.additionalUserInfo?.isNewUser) {
+          trackCompleteRegistration({
+            mobile: true,
+            registration_method: "apple",
+          });
+          logInfo("Tracked CompleteRegistration for new Apple user");
+        }
+
         onAuthSuccess();
       } else {
         logError("Apple sign-in failed - incomplete user data", {
@@ -256,12 +287,12 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   //
   useEffect(() => {
     logInfo("Auth component mounted");
-    
+
     // Build and set the login URL
-    buildLoginUrl().then(url => {
+    buildLoginUrl().then((url) => {
       setLoginUrl(url);
     });
-    
+
     window.addEventListener("message", receiveMessage, false);
     return () => {
       logDebug("Auth component unmounting");
