@@ -3,12 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		7C3B78F08DE30ED0AEA7E86E /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916B274034E139CCC63B81BC /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
+		B0B18CDD2E4AF1FD00D8E991 /* Shop for a Cause.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B0B18CC52E4AF1FD00D8E991 /* Shop for a Cause.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B0B18CE52E4AF3A000D8E991 /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = B0B18CE22E4AF39F00D8E991 /* _locales */; };
+		B0B18CE62E4AF3A000D8E991 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = B0B18CE32E4AF39F00D8E991 /* manifest.json */; };
+		B0B18CE72E4AF3A000D8E991 /* source in Resources */ = {isa = PBXBuildFile; fileRef = B0B18CE42E4AF3A000D8E991 /* source */; };
+		B0B18CEB2E4AF44C00D8E991 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B18CEA2E4AF41100D8E991 /* SafariWebExtensionHandler.swift */; };
 		B0CF13842D7685E800970069 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B0CF137D2D7685E800970069 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B0CF13B12D7687E400970069 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CF13A52D7687E400970069 /* AppDelegate.swift */; };
 		B0CF13B22D7687E400970069 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0CF13A62D7687E400970069 /* Assets.xcassets */; };
@@ -22,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B0B18CDB2E4AF1FD00D8E991 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0B18CC42E4AF1FD00D8E991;
+			remoteInfo = "Shop for a Cause";
+		};
 		B0CF13822D7685E800970069 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
@@ -39,6 +51,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				B0CF13842D7685E800970069 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */,
+				B0B18CDD2E4AF1FD00D8E991 /* Shop for a Cause.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +63,13 @@
 		916B274034E139CCC63B81BC /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
+		B0B18CC52E4AF1FD00D8E991 /* Shop for a Cause.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Shop for a Cause.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0B18CE22E4AF39F00D8E991 /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
+		B0B18CE32E4AF39F00D8E991 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		B0B18CE42E4AF3A000D8E991 /* source */ = {isa = PBXFileReference; lastKnownFileType = folder; path = source; sourceTree = "<group>"; };
+		B0B18CE82E4AF41100D8E991 /* extensionLaunchpad.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = extensionLaunchpad.entitlements; sourceTree = "<group>"; };
+		B0B18CE92E4AF41100D8E991 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0B18CEA2E4AF41100D8E991 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		B0CF137D2D7685E800970069 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0CF13A42D7687E400970069 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		B0CF13A52D7687E400970069 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,12 +89,33 @@
 		FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B0B18CE02E4AF1FD00D8E991 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B0B18CC42E4AF1FD00D8E991 /* Shop for a Cause */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B0B18CC62E4AF1FD00D8E991 /* Shop for a Cause */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B0B18CE02E4AF1FD00D8E991 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shop for a Cause"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		504EC3011FED79650016851F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0B18CC22E4AF1FD00D8E991 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,11 +142,18 @@
 		504EC2FB1FED79650016851F = {
 			isa = PBXGroup;
 			children = (
+				B0B18CE22E4AF39F00D8E991 /* _locales */,
+				B0B18CE32E4AF39F00D8E991 /* manifest.json */,
+				B0B18CE42E4AF3A000D8E991 /* source */,
 				B0CF13B02D7687E400970069 /* App */,
 				B0CF13BC2D7687E900970069 /* OneSignalNotificationServiceExtension */,
+				B0B18CC62E4AF1FD00D8E991 /* Shop for a Cause */,
 				504EC3051FED79650016851F /* Products */,
 				7F8756D8B27F46E3366F6CEA /* Pods */,
 				27E2DDA53C4D2A4D1A88CE4A /* Frameworks */,
+				B0B18CE82E4AF41100D8E991 /* extensionLaunchpad.entitlements */,
+				B0B18CE92E4AF41100D8E991 /* Info.plist */,
+				B0B18CEA2E4AF41100D8E991 /* SafariWebExtensionHandler.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,6 +162,7 @@
 			children = (
 				504EC3041FED79650016851F /* App.app */,
 				B0CF137D2D7685E800970069 /* OneSignalNotificationServiceExtension.appex */,
+				B0B18CC52E4AF1FD00D8E991 /* Shop for a Cause.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,11 +224,34 @@
 			);
 			dependencies = (
 				B0CF13832D7685E800970069 /* PBXTargetDependency */,
+				B0B18CDC2E4AF1FD00D8E991 /* PBXTargetDependency */,
 			);
 			name = App;
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B0B18CC42E4AF1FD00D8E991 /* Shop for a Cause */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0B18CE12E4AF1FD00D8E991 /* Build configuration list for PBXNativeTarget "Shop for a Cause" */;
+			buildPhases = (
+				B0B18CC12E4AF1FD00D8E991 /* Sources */,
+				B0B18CC22E4AF1FD00D8E991 /* Frameworks */,
+				B0B18CC32E4AF1FD00D8E991 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B0B18CC62E4AF1FD00D8E991 /* Shop for a Cause */,
+			);
+			name = "Shop for a Cause";
+			packageProductDependencies = (
+			);
+			productName = "Shop for a Cause";
+			productReference = B0B18CC52E4AF1FD00D8E991 /* Shop for a Cause.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		B0CF137C2D7685E800970069 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXNativeTarget;
@@ -213,6 +285,9 @@
 						LastSwiftMigration = 1100;
 						ProvisioningStyle = Automatic;
 					};
+					B0B18CC42E4AF1FD00D8E991 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					B0CF137C2D7685E800970069 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -236,6 +311,7 @@
 			targets = (
 				504EC3031FED79650016851F /* App */,
 				B0CF137C2D7685E800970069 /* OneSignalNotificationServiceExtension */,
+				B0B18CC42E4AF1FD00D8E991 /* Shop for a Cause */,
 			);
 		};
 /* End PBXProject section */
@@ -245,6 +321,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B18CE52E4AF3A000D8E991 /* _locales in Resources */,
+				B0B18CE62E4AF3A000D8E991 /* manifest.json in Resources */,
+				B0B18CE72E4AF3A000D8E991 /* source in Resources */,
 				B0CF13B22D7687E400970069 /* Assets.xcassets in Resources */,
 				B0CF13B32D7687E400970069 /* capacitor.config.json in Resources */,
 				B0CF13B42D7687E400970069 /* config.xml in Resources */,
@@ -252,6 +331,13 @@
 				B0CF13B72D7687E400970069 /* LaunchScreen.storyboard in Resources */,
 				B0CF13B82D7687E400970069 /* Main.storyboard in Resources */,
 				B0CF13B92D7687E400970069 /* public in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0B18CC32E4AF1FD00D8E991 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +428,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B18CEB2E4AF44C00D8E991 /* SafariWebExtensionHandler.swift in Sources */,
 				B0CF13B12D7687E400970069 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0B18CC12E4AF1FD00D8E991 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +451,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B0B18CDC2E4AF1FD00D8E991 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0B18CC42E4AF1FD00D8E991 /* Shop for a Cause */;
+			targetProxy = B0B18CDB2E4AF1FD00D8E991 /* PBXContainerItemProxy */;
+		};
 		B0CF13832D7685E800970069 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B0CF137C2D7685E800970069 /* OneSignalNotificationServiceExtension */;
@@ -504,7 +603,7 @@
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "App for a Cause";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -535,7 +634,7 @@
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "App for a Cause";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -550,6 +649,88 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		B0B18CDE2E4AF1FD00D8E991 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 839867Y5K7;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Shop for a Cause/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Shop for a Cause";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.gladly.appforacause.Shop-for-a-Cause";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B0B18CDF2E4AF1FD00D8E991 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 839867Y5K7;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Shop for a Cause/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Shop for a Cause";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.gladly.appforacause.Shop-for-a-Cause";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -648,6 +829,15 @@
 			buildConfigurations = (
 				504EC3171FED79650016851F /* Debug */,
 				504EC3181FED79650016851F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0B18CE12E4AF1FD00D8E991 /* Build configuration list for PBXNativeTarget "Shop for a Cause" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0B18CDE2E4AF1FD00D8E991 /* Debug */,
+				B0B18CDF2E4AF1FD00D8E991 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

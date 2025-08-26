@@ -7,6 +7,8 @@ import SelectCause from "./SelectCause";
 import { getUrlPostFix } from "../services/url";
 import { logInfo, logError, logDebug } from "../services/logService";
 import { BranchService } from "../services/branch";
+import { SafariExtensionService } from "../services/safariExtension";
+import SafariExtensionTest from "./SafariExtensionTest";
 import "./Dashboard.css";
 
 interface DashboardProps {
@@ -385,6 +387,54 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
         }
         break;
 
+      case "install-safari-extension":
+        // Handle Safari extension installation request from iframe
+        SafariExtensionService.installExtension()
+          .then((success) => {
+            logInfo("Safari extension installation triggered", { success });
+            // Send response back to iframe
+            const iframe = document.querySelector("iframe") as HTMLIFrameElement;
+            if (iframe && iframe.contentWindow) {
+              iframe.contentWindow.postMessage(
+                {
+                  action: "safari-extension-install-response",
+                  success: success,
+                },
+                "*"
+              );
+            }
+          })
+          .catch((error) => {
+            logError("Failed to trigger Safari extension installation", {
+              error: error.message || error,
+            });
+          });
+        break;
+
+      case "check-safari-extension":
+        // Check if Safari extension is enabled
+        SafariExtensionService.isExtensionEnabled()
+          .then((enabled) => {
+            logDebug("Safari extension status checked", { enabled });
+            // Send response back to iframe
+            const iframe = document.querySelector("iframe") as HTMLIFrameElement;
+            if (iframe && iframe.contentWindow) {
+              iframe.contentWindow.postMessage(
+                {
+                  action: "safari-extension-status-response",
+                  enabled: enabled,
+                },
+                "*"
+              );
+            }
+          })
+          .catch((error) => {
+            logError("Failed to check Safari extension status", {
+              error: error.message || error,
+            });
+          });
+        break;
+
       default:
         break;
     }
@@ -474,6 +524,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
 
   return (
     <>
+      {/* Temporary Safari Extension Test Component - Remove in production */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 1000 }}>
+        <SafariExtensionTest />
+      </div>
+
       <iframe
         src={`${process.env.REACT_APP_SERVER}/v5/mobile/dashboard?access_token=${userAccessToken}&mobile_os=${getMobileOS()}&${urlPostFix}`}
         frameBorder="0"
