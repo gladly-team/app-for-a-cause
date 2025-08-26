@@ -72,4 +72,19 @@ export class BranchService {
 
     return "unknown";
   }
+
+  /**
+   * Extracts the causeId from the Branch campaign string
+   * Expected format: r:{referrer}:u:{user}:m:{mission}:c:{causeId}
+   * @returns The causeId if found in the campaign string, null otherwise
+   */
+  static getCauseIdFromCampaign(): string | null {
+    const data = this.getReferralData();
+    if (!data?.campaign) return null;
+
+    // Parse format: r:{referrer}:u:{user}:m:{mission}:c:{causeId}
+    // Look for :c: followed by the causeId
+    const match = data.campaign.match(/:c:([^:]+)/);
+    return match ? match[1] : null;
+  }
 }

@@ -96,6 +96,34 @@ The application is structured as a typical Ionic React application:
    - The app embeds web content and communicates via postMessage
    - Authentication tokens are passed to the web views
 
+## Version Management
+
+When releasing a new version of the app, update the following version numbers:
+
+### 1. Package Version
+**File:** `package.json`
+- Update the `version` field (e.g., "1.0.12" → "1.0.13")
+
+### 2. iOS Versions
+**File:** `ios/App/App.xcodeproj/project.pbxproj`
+- Update all instances of `CURRENT_PROJECT_VERSION` (build number, e.g., 2 → 3)
+- Update all instances of `MARKETING_VERSION` (version string, e.g., "1.0.12" → "1.0.13")
+- Note: This includes both the main app target and the OneSignalNotificationServiceExtension target
+
+### 3. Android Versions
+**File:** `android/app/build.gradle`
+- Update `versionCode` (integer build number, e.g., 12 → 13)
+- Update `versionName` (version string, e.g., "1.0.12" → "1.0.13")
+
+### Version Update Checklist
+1. Update `package.json` version
+2. Update iOS `CURRENT_PROJECT_VERSION` (all 4 instances)
+3. Update iOS `MARKETING_VERSION` (all 4 instances)
+4. Update Android `versionCode`
+5. Update Android `versionName`
+6. Commit with message: "Bump version to X.X.X"
+7. Build and test on both platforms before releasing
+
 ## Troubleshooting
 
 If having issues with Facebook authentication, check the patch mentioned in the README:
