@@ -186,7 +186,11 @@ const Start: React.FC = () => {
     if (!userData?.causeId) {
       return (
         <div className={`fade-component ${!isTransitioning ? "visible" : ""}`}>
-          <SelectCause userAccessToken={userAccessToken} onCauseSelect={onCauseSelect} />
+          <SelectCause 
+            userAccessToken={userAccessToken} 
+            onCauseSelect={onCauseSelect}
+            autoCauseId={BranchService.getCauseIdFromCampaign()}
+          />
         </div>
       );
     }
