@@ -7,6 +7,10 @@ import { useIonAlert, useIonRouter } from "@ionic/react";
 import { logInfo, logError, logDebug } from "../services/logService";
 import { BranchService } from "../services/branch";
 import { trackCompleteRegistration } from "../services/facebookPixel";
+import { Browser } from "@capacitor/browser";
+
+// Web page that converts a Facebook account to another sign-in method.
+const FACEBOOK_MIGRATION_URL = `${process.env.REACT_APP_SERVER}/v5/login?fbconvert=1`;
 
 interface AuthProps {
   onAuthSuccess: () => void;
@@ -78,56 +82,34 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
   };
 
   //
-  // Load Facebook Sign In.
+  // Facebook Login is decommissioned. The web login page still shows the
+  // button, so tapping it lands here. Instead of signing in we explain the
+  // change and send the user to the web flow that converts their account to
+  // Google, Apple, or email+password (it keeps the same Firebase UID, so
+  // nothing in the app has to migrate). The URL points at the desktop
+  // /v5/login page on purpose: /v5/mobile/login doesn't host that modal.
   //
-  const facebookSignIn = async () => {
-    if (isAuthInitialized) {
-      logDebug("Facebook sign-in already initialized");
-      return;
-    }
+  const showFacebookDecommission = () => {
+    logInfo("Facebook sign-in tapped, showing decommission notice");
 
-    isAuthInitialized = true;
-
-    logInfo("Facebook sign-in attempt initiated");
-    try {
-      const result = await FirebaseAuthentication.signInWithFacebook();
-      const user = result.user;
-      const credential = result.credential;
-      if (user && credential) {
-        logInfo("Facebook sign-in successful");
-
-        // Track Facebook Pixel CompleteRegistration event for new users
-        if (result.additionalUserInfo?.isNewUser) {
-          trackCompleteRegistration({
-            mobile: true,
-            registration_method: "facebook",
-          });
-          logInfo("Tracked CompleteRegistration for new Facebook user");
-        }
-
-        onAuthSuccess();
-      } else {
-        logError("Facebook sign-in failed - incomplete user data", {
-          hasUser: !!user,
-          hasCredential: !!credential,
-        });
-      }
-
-      isAuthInitialized = false;
-    } catch (error) {
-      isAuthInitialized = false;
-
-      logError("Facebook sign-in error", {
-        error: String(error),
-        stack: (error as Error).stack,
-      });
-
-      presentAlert({
-        header: "Facebook Sign-In Failed",
-        message: "Could not complete Facebook sign-in. Please try again.",
-        buttons: ["OK"],
-      });
-    }
+    presentAlert({
+      header: "Facebook Login is going away",
+      message:
+        "Signing in with Facebook has been discontinued. Your account, tabs, hearts, and impact are all safe. " +
+        "You just need to convert your account to a new sign-in method: Google, Apple, or email and password. " +
+        "We'll open your browser to finish this. It takes about a minute.",
+      buttons: [
+        { text: "Not now", role: "cancel" },
+        {
+          text: "Convert my account",
+          handler: () => {
+            Browser.open({ url: FACEBOOK_MIGRATION_URL }).catch((error) => {
+              logError("Failed to open Facebook migration URL", { error: String(error) });
+            });
+          },
+        },
+      ],
+    });
   };
 
   //
@@ -258,7 +240,7 @@ const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
         break;
 
       case "mobile-login-facebook":
-        facebookSignIn();
+        showFacebookDecommission();
         break;
 
       case "mobile-login-email":
