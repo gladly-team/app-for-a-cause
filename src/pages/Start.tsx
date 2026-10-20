@@ -11,6 +11,7 @@ import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { getAccessToken, initializeFirebase, signOut, deleteUser } from "../services/firebaseAuth";
 import OneSignal from "onesignal-cordova-plugin";
 import { BranchService } from "../services/branch";
+import { setShopExtensionUser, clearShopExtensionUser } from "../services/shopExtension";
 import { logDebug } from "../services/logService";
 import "./Start.css";
 
@@ -71,6 +72,8 @@ const Start: React.FC = () => {
       console.error("Logout error:", error);
     }
 
+    await clearShopExtensionUser();
+
     setUserAccessToken(undefined);
     setUserData(null);
     setTimeout(() => setIsTransitioning(false), 50);
@@ -108,6 +111,7 @@ const Start: React.FC = () => {
       const data = await response.json();
 
       OneSignal.login(data.id);
+      setShopExtensionUser(data.id);
 
       setUserData(data);
     } catch (error) {
@@ -124,6 +128,8 @@ const Start: React.FC = () => {
 
       if (token) {
         await fetchUserData(token);
+      } else {
+        await clearShopExtensionUser();
       }
       await SplashScreen.hide();
     } catch (error) {

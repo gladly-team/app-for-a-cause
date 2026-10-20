@@ -1,0 +1,82 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_Meta_appName__",
+  "short_name": "__MSG_Meta_shortAppName__",
+  "description": "__MSG_Meta_appDescription__",
+  "default_locale": "en",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "source/popup.html",
+    "default_icon": {
+      "16": "source/assets/img/app-icon/active-16.png",
+      "19": "source/assets/img/app-icon/active-19.png",
+      "38": "source/assets/img/app-icon/active-38.png",
+      "48": "source/assets/img/app-icon/active-48.png",
+      "128": "source/assets/img/app-icon/active-128.png"
+    },
+    "default_title": "__MSG_Meta_defaultTitle__"
+  },
+  "icons": {
+    "16": "source/assets/img/app-icon/active-16.png",
+    "19": "source/assets/img/app-icon/active-19.png",
+    "38": "source/assets/img/app-icon/active-38.png",
+    "48": "source/assets/img/app-icon/active-48.png",
+    "128": "source/assets/img/app-icon/active-128.png",
+    "256": "source/assets/img/app-icon/active-256.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "source/assets/*",
+        "source/shoppay.js",
+        "source/fonts/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "source/background.js"
+    ],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "source/content.js"
+      ]
+    },
+    {
+      "all_frames": true,
+      "run_at": "document_start",
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "source/checkout.js"
+      ]
+    }
+  ],
+  "externally_connectable": {
+    "matches": [
+      "https://*.wild.link/*",
+      "*://*.wildlink.me/*"
+    ]
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "permissions": [
+    "tabs",
+    "nativeMessaging",
+    "storage",
+    "unlimitedStorage"
+  ]
+}

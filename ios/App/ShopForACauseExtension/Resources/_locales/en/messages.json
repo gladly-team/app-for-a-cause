@@ -1,0 +1,424 @@
+{
+  "Meta_appName": {
+    "message": "Shop for a Cause",
+    "description": "The application's name. Used in extension manifest and across application."
+  },
+  "Meta_shortAppName": {
+    "message": "Shop for a Cause",
+    "description": "The application's short name. Used in extension manifest."
+  },
+  "Meta_appDescription": {
+    "message": "Shop for a Cause",
+    "description": "The application's description. Used in extension manifest."
+  },
+  "Meta_defaultTitle": {
+    "message": "Shop for a Cause",
+    "description": "The application's default_title to be shown in browser system menu. Used in extension manifest."
+  },
+  "Common_loading": {
+    "message": "Loading...",
+    "description": "The loading message next to spinner."
+  },
+  "Common_logIn": {
+    "message": "Log In",
+    "description": "Button to log in user."
+  },
+  "Common_merchant": {
+    "message": "Merchant:",
+    "description": "Label for merchant name."
+  },
+  "Common_processing": {
+    "message": "Processing...",
+    "description": "The Processing message next to spinner."
+  },
+  "Common_rewardRates": {
+    "message": "Reward rates:",
+    "description": "Label for the reward rate."
+  },
+  "Common_viewRewards": {
+    "message": "View Rewards",
+    "description": "The view rewards button."
+  },
+  "Common_offerDetailsAndTerms": {
+    "message": "Offer Details & Terms",
+    "description": "The offer details and terms button."
+  },
+  "Common_offerDetailsDescription": {
+    "message": "Tap the button to activate rewards (such as cashback or coupons) during your online shopping session.",
+    "description": "The offer details and terms button."
+  },
+  "Common_eligibleTransactionDescription": {
+    "message": "Eligible Transaction: A purchase from $MERCHANT$ made by utilizing the $PARTNER$ browser extension and immediately completing the transaction.",
+    "description": "Description of criteria for an eligible transaction.",
+    "placeholders": {
+      "merchant": {
+        "content": "$1",
+        "example": "Target"
+      },
+      "partner": {
+        "content": "$2",
+        "example": "Your Brand"
+      }
+    }
+  },
+  "Common_couponsTermsDescription": {
+    "message": "Coupons: If coupon offers are presented to you by the $PARTNER$ browser extension and you tap to activate coupons, the extension will automatically test coupon codes to determine which, if any, saves the most money. Coupon codes may not apply to your purchase, depending on which items are in your shopping cart, timing, location, or other factors.",
+    "description": "Description of coupons in details and terms.",
+    "placeholders": {
+      "partner": {
+        "content": "$1",
+        "example": "Your Brand"
+      }
+    }
+  },
+  "Common_rewardAmountsTermsDescription": {
+    "message": "Reward amounts: Reward amount is calculated by the merchant, based upon the applicable rates and exclusions, which may change from time to time. Amounts may be adjusted or canceled due to returned items, suspected fraud, or other factors described within the terms and conditions.",
+    "description": "Description of reward amounts in details and terms."
+  },
+  "Common_paymentTimingTermsDescription": {
+    "message": "Payment timing: On average, reward payouts occur 60-120 days after your completed transaction, but some rewards may take 180 days or longer. We provide a reward to you, in monthly batches, after we receive payment for that specific transaction from the Merchant. Merchants usually have holdback periods during which they hold a pending reward until the expiration of a return policy or until a service is consumed. Reward payouts may be subject to minimum payout thresholds and dormant account fees.",
+    "description": "Description of payment timing in details and terms."
+  },
+  "Common_clickToReadTermsAndConditions": {
+    "message": "Click to read Terms & Conditions",
+    "description": "Button to open terms and conditions when offer details is expanded."
+  },
+  "Common_merchantCardNoRateShort": {
+    "message": "Earn",
+    "description": "Short cashback description for OfferCell/Merchant Card when no rate is provided."
+  },
+  "Common_merchantCardRateShort": {
+    "message": "Up to $RATE$",
+    "description": "Short cashback rate for OfferCell/Merchant Card.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "Common_merchantCardSubDescription": {
+    "message": "for each eligible transaction. The following reward rates and exclusions apply:",
+    "description": "Description that follows rate description for MerchantCard"
+  },
+  "MenuItem_aboutPage": {
+    "message": "About Application Name",
+    "description": "Navbar menu item to open about page."
+  },
+  "MenuItem_supportPage": {
+    "message": "Get Support",
+    "description": "Navbar menu item to open support page."
+  },
+  "MenuItem_termsPage": {
+    "message": "Terms of Service",
+    "description": "Navbar menu item to open terms of service page."
+  },
+  "MenuItem_privacyPolicy": {
+    "message": "Privacy Policy",
+    "description": "Navbar menu item to open privacy policy page."
+  },
+  "MenuItem_alertMeForThisSite": {
+    "message": "Alert me for this site",
+    "description": "Navbar menu item to enable alerts for current site."
+  },
+  "MenuItem_dontAlertMeForThisSite": {
+    "message": "Don't alert me for this site",
+    "description": "Navbar menu item to disable alerts for current site."
+  },
+  "Eligible_offerRateTagline": {
+    "message": "Earn up to $RATE$",
+    "description": "The offer rate for the EMA.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "Eligible_activateButton": {
+    "message": "Activate",
+    "description": "The activate button for the EMA."
+  },
+  "Eligible_offerActivated": {
+    "message": "Offer Activated!",
+    "description": "The offer activated message for the EMA."
+  },
+  "Eligible_newCustomer": {
+    "message": "New Customer Purchase",
+    "description": "The alert to tell the user that they are a new customer."
+  },
+  "Eligible_exclusionsApply": {
+    "message": "Exclusions Apply",
+    "description": "The alert to tell the user that exclusions apply."
+  },
+  "Eligible_exclusions": {
+    "message": "Exclusions",
+    "description": "The text to display before the list of exclusions."
+  },
+  "Eligible_adBlockerWarning": {
+    "message": "Ad Block Detected",
+    "description": "The alert to tell the user that an ad blocker has been detected."
+  },
+  "Eligible_adBlockerWarningDetails": {
+    "message": "Please disable any adblockers to\nensure that your rewards are tracked",
+    "description": "The message to alert users to disable their ad blocker for proper usage."
+  },
+  "Share_tagline": {
+    "message": "Share & Raise when anyone buys with this link:",
+    "description": "The Share + Earn prompt for EMA when activated without rate."
+  },
+  "Share_taglineWithRate": {
+    "message": "Share & Raise up to $RATE$ when anyone buys with this link:",
+    "description": "The Share + Earn prompt for EMA when activated with rate.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "Share_copySuccess": {
+    "message": "Link copied to clipboard",
+    "description": "Text in pill when link is copied to clipboard for Share + Earn."
+  },
+  "Share_shareWithCopy": {
+    "message": "Share via copy/paste",
+    "description": "The name for copy link button in Share + Earn."
+  },
+  "Share_shareWithFacebook": {
+    "message": "Share on Facebook",
+    "description": "The name for facebook button in Share + Earn."
+  },
+  "Share_shareWithEmail": {
+    "message": "Share via Email",
+    "description": "The name for email button for Share + Earn."
+  },
+  "Share_templateEmailSubject": {
+    "message": "Here's something I thought you might like",
+    "description": "Subject for Share + Earn email template."
+  },
+  "Coupons_startHeading": {
+    "message": "Check for\ncoupons",
+    "description": "Tagline for beginning of couponator flow."
+  },
+  "Coupons_startSubHeading": {
+    "message": "",
+    "description": "SubHeading for beginning of couponator flow."
+  },
+  "Coupons_oneClickApply": {
+    "message": "1-Click Apply",
+    "description": "Button to begin couponator flow."
+  },
+  "Coupons_checkingForCoupons": {
+    "message": "Checking for\napplicable\ncoupons...",
+    "description": "Message displayed after clicking apply before applying codes in couponator flow."
+  },
+  "Coupons_testingCurrentCoupons": {
+    "message": "Testing $CURRENTINDEX$ of $TOTALCOUPONS$ coupons...",
+    "description": "In Progress text with current coupon index and total count for couponator flow",
+    "placeholders": {
+      "currentIndex": {
+        "content": "$1",
+        "example": "1"
+      },
+      "totalCoupons": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "Coupons_successHeading": {
+    "message": "You saved\n$SAVINGS$",
+    "description": "Heading for coupons successfully applied followed by total amount found in couponator flow.",
+    "placeholders": {
+      "savings": {
+        "content": "$1",
+        "example": "$5"
+      }
+    }
+  },
+  "Coupons_failedHeading": {
+    "message": "You've got a\ngreat price!",
+    "description": "Message displayed when no coupon added additional savings."
+  },
+  "Coupons_failedAdditionalSavings": {
+    "message": "Coupons applied didn't provide\n additional savings, but your\n $RATE$ cashback is activated.",
+    "description": "Message displayed when no additional savings are found but cashback is activated.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "Coupons_completeHorizontalRuleText": {
+    "message": "and",
+    "description": "Text displayed between both texts at the end of couponator flow."
+  },
+  "Coupons_completeCashbackRate": {
+    "message": "Up to $RATE$ Cashback Activated!",
+    "description": "Cashback activation notice at the end of couponator flow.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "Coupons_completeCashbackNoRate": {
+    "message": "Cashback Activated",
+    "description": "Cashback activation notice at the end of couponator flow."
+  },
+  "Coupons_completeContinueToCheckout": {
+    "message": "Continue to Checkout",
+    "description": "Button to continue to checkout at the end of couponator flow."
+  },
+  "NonMerchant_viewRewardsButton": {
+    "message": "View Rewards Dashboard",
+    "description": "Button to view rewards dashboard in NMV."
+  },
+  "NonMerchant_checkOutFeaturedMerchants": {
+    "message": "Check out our featured merchants:",
+    "description": "Heading for featured merchant cards in NMV."
+  },
+  "AlternateMerchant_cashbackNotAvailableAtMerchant": {
+    "message": "Cashback isn't available at $MERCHANT$.",
+    "description": "Header indicating cashback is not available on a merchant page for AMA.",
+    "placeholders": {
+      "merchant": {
+        "content": "$1",
+        "example": "Target"
+      }
+    }
+  },
+  "AlternateMerchant_similarSites": {
+    "message": "Earn rewards from similar sites:",
+    "description": "Sub-header for similar sites section on AMA."
+  },
+  "AlternateMerchant_alertMeForThisWebsite": {
+    "message": "Alert me for this website",
+    "description": "Button to enable alerts for current site on AMA."
+  },
+  "AlternateMerchant_dontAlertMeForThisWebsite": {
+    "message": "Don't alert me for this website",
+    "description": "Button to disable alerts for current site on AMA."
+  },
+  "LostAttribution_heading": {
+    "message": "Oops!",
+    "description": "Heading for Lost Attribution view."
+  },
+  "LostAttribution_subheading": {
+    "message": "It looks like you may have activated a different extension or clicked another link.",
+    "description": "Subheading for Lost Attribution view."
+  },
+  "LostAttribution_reactivateRateTagline": {
+    "message": "Reactivate to earn up to $RATE$",
+    "description": "Tagline to reactivate cash back on Lost Attribution view.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "LostAttribution_reactivateButton": {
+    "message": "Reactivate Cashback",
+    "description": "Button to reactivate cash back on Lost Attribution view."
+  },
+  "Search_inputPlaceholder": {
+    "message": "Search",
+    "description": "Placeholder text for search input."
+  },
+  "Search_noOffers": {
+    "message": "No offers found, please try a different search term.",
+    "description": "Message displayed when search returns no results."
+  },
+  "Search_noMerchants": {
+    "message": "No merchants found.\nPlease try a different search.",
+    "description": "Message shown when a merchant search has no results"
+  },
+  "FeaturedDisabled_header": {
+    "message": "Your extension is currently disabled.",
+    "description": "Header for the FeaturedDisabled view."
+  },
+  "FeaturedDisabled_enable": {
+    "message": "Enable",
+    "description": "Text for 'Enable' button on the FeaturedDisabled view."
+  },
+  "FeaturedLogin_header": {
+    "message": "Login to start earning cash back",
+    "description": "Header for the FeaturedLogin view."
+  },
+  "FeaturedLogin_text": {
+    "message": "The YourBrand browser extension was successfully downloaded.",
+    "description": "Text for the FeaturedLogin view."
+  },
+  "FeaturedLogin_subtext": {
+    "message": "Use your YourBrand login to enroll and start saving.",
+    "description": "Subtext for the FeaturedLogin view."
+  },
+  "FeaturedLogin_signIn": {
+    "message": "Sign in",
+    "description": "Text for the Sign in button on the FeaturedLogin view."
+  },
+  "InstallationSuccess_header": {
+    "message": "You're all set!",
+    "description": "Header for the InstallationSuccess view."
+  },
+  "InstallationSuccess_bottomText": {
+    "message": "Log in or create an account to select which charity you want to support",
+    "description": "Bottom text for the InstallationSuccess view."
+  },
+  "Error_header": {
+    "message": "Sorry, an error occurred.",
+    "description": "Header for the Error view."
+  },
+  "Error_subheader": {
+    "message": "Reload the page.",
+    "description": "Subheader for the Error view."
+  },
+  "Error_reloadButton": {
+    "message": "Reload",
+    "description": "Text for 'Reload' button on the Error view."
+  },
+  "Serp_decoratorText": {
+    "message": "Raise up to $RATE$",
+    "description": "Decorator text for SERP.",
+    "placeholders": {
+      "rate": {
+        "content": "$1",
+        "example": "5%"
+      }
+    }
+  },
+  "Serp_decoratorTextNoRate": {
+    "message": "Earn cash back",
+    "description": "Decorator text for SERP when no rate is available."
+  },
+  "Terms_TermsAndConditionsLink": {
+    "message": "Terms and Conditions",
+    "description": "Displayed text for the link to terms and conditions."
+  },
+  "Terms_PrivacyPolicyLink": {
+    "message": "Privacy Policy",
+    "description": "Displayed text for the link to privacy policy."
+  },
+  "Terms_message": {
+    "message": "Effective Date: February 28, 2023\n\nFollowing is a summary of offer terms and conditions. You can access full terms of service <a style='color: -webkit-link' href=$TERMS$ target='_blank' data-cy='full-terms-link' rel='noreferrer'>here.</a>\n\n<ol style='list-style: decimal'><li><b>Acceptance of terms.</b> By using the Services, you acknowledge that you have read and understood the terms and conditions, and that you agree to be legally bound by all of its terms. You also acknowledge that you have had an opportunity to review and you agree to the terms of our <a style='color: -webkit-link' href=$PRIVACY$ target='_blank' data-cy='privacy-policy-link' rel='noreferrer'>Privacy Policy</a>. If you do not agree to all of the terms and conditions, then you are not allowed to participate in or use the Services.</li><li><b>Rewards.</b> The services enable you to access and earn rewards for non-profits, subject to the guidelinesherein (“Services“).<ol style='list-style: lower-alpha'><li>The Services may include cashback and referral bonuses activated by the creation of trackable links (“Links”) for a Merchant. Links are configured to track and attribute transactions to your account so that you may earn a reward for your chosen non-profit if you or someone to whom you send a Link completes aqualifying transaction with a Merchant.</li><li>Some transactions may not earn rewards or may earn at a rate which is different from the rate indicated bythe service. You are not guaranteed to earn a reward from a transaction for several reasons, withoutnotice to you, including, without limitation:<ol style='list-style: lower-roman'><li>Merchants may alter terms, conditions, or commission rates.</li><li>Merchants may discontinue their programs.</li><li>Merchants may exclude certain products from Reward eligibility.</li><li>Merchants may have technical failures which result in transactions failing to be tracked or attributedto you.</li><li>Links may fail to function properly. </li><li>Links may be disabled by web browsers or ad blockers. </li><li>Merchants may reject transactions due to suspected policy violations.</li><li>Other: charge-backs, product returns, accounting error, Merchant non-payment, fraudulent transactions,our inability to contact you in order to validate transactions, your inappropriate distribution ofLinks, or your failure to comply with Merchant policies. If the Merchant pays less than expectedamount or does not pay a commission for the transaction, we reserve the right, in our sole discretion,to adjust or cancel the reward. Furthermore, we reserve the right, in our sole discretion, towithhold, cancel or adjust the amount of any reward, for any reason at any time. By using theServices, you accept this condition.</li></ol></li></ol></li><li><b>Coupons.</b> Some rewards may include coupons, discounts or promotions from Merchants (“Offers”). We do notguarantee that merchants will honor Offers. Offer codes may be expired or invalid. Offers may not be eligiblefor your transaction, based upon exclusions, terms and conditions determined by Merchants.</li><li><b>Cookies.</b> Some Merchants may place cookies on your device to recognize your device during a subsequent visit in order to attribute purchases to your account. If you, or those clicking on your shared Link, block ordelete cookies, tracking and attribution may be inoperable, in which case no reward shall be earned.</li><li><b>Third-Party Services.</b> We do not endorse, warrant or guarantee the products, services or content of Merchants or other third-parties. We are not an agent or broker or otherwise responsible for Merchants&apos; activities, policies, products or services.</li></ol> <div>See full Shop for a Cause <a style='color: -webkit-link' href=$TERMS$ target='_blank' rel='noreferrer'>terms of service</a>.</div>",
+    "description": "Terms of service for the extension.",
+    "placeholders": {
+      "terms": {
+        "content": "$1",
+        "example": "https://www.partner.com/terms-of-service"
+      },
+      "privacy": {
+        "content": "$2",
+        "example": "https://www.partner.com/privacy-policy"
+      },
+      "name": {
+        "content": "$3",
+        "example": "Partner Name"
+      }
+    }
+  }
+}

@@ -108,7 +108,7 @@ When releasing a new version of the app, update the following version numbers:
 **File:** `ios/App/App.xcodeproj/project.pbxproj`
 - Update all instances of `CURRENT_PROJECT_VERSION` (build number, e.g., 2 → 3)
 - Update all instances of `MARKETING_VERSION` (version string, e.g., "1.0.12" → "1.0.13")
-- Note: This includes both the main app target and the OneSignalNotificationServiceExtension target
+- Note: This includes the main app target, the OneSignalNotificationServiceExtension target, and the ShopForACauseExtension target. Extension versions must match the app or App Store upload fails.
 
 ### 3. Android Versions
 **File:** `android/app/build.gradle`
@@ -117,8 +117,8 @@ When releasing a new version of the app, update the following version numbers:
 
 ### Version Update Checklist
 1. Update `package.json` version
-2. Update iOS `CURRENT_PROJECT_VERSION` (all 4 instances)
-3. Update iOS `MARKETING_VERSION` (all 4 instances)
+2. Update iOS `CURRENT_PROJECT_VERSION` (all 6 instances)
+3. Update iOS `MARKETING_VERSION` (all 6 instances)
 4. Update Android `versionCode`
 5. Update Android `versionName`
 6. Commit with message: "Bump version to X.X.X"
