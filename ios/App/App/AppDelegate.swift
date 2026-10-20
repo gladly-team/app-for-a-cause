@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             didFinishLaunchingWithOptions: launchOptions
         )
         
-        // Initialize Branch
-        Branch.getInstance().initSession(launchOptions: launchOptions) { (params, error) in
+        // Initialize Branch. Scene-based apps use BranchScene; links are forwarded from SceneDelegate.
+        BranchScene.shared().initSession(launchOptions: launchOptions, registerDeepLinkHandler: { (params, error, scene) in
             // Handle params if needed for native iOS code
             print("Branch init params: \(params as? [String: AnyObject] ?? [:])")
-        }
+        })
 
         return true
     }
@@ -48,33 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        // Handle Branch deep links
-        let branchHandled = Branch.getInstance().application(app, open: url, options: options)
-        
-        // Handle Facebook URLs
-        if ApplicationDelegate.shared.application(
-            app,
-            open: url,
-            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
-        ) {
-            return true
-        }
-        
-        // Handle Capacitor URLs
-        let capacitorHandled = ApplicationDelegateProxy.shared.application(app, open: url, options: options)
-        
-        return branchHandled || capacitorHandled
+    /*
+     * Tells iOS which scene configuration to use. The configuration itself
+     * (SceneDelegate + Main.storyboard) is declared in Info.plist.
+     */
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        // Handle Branch Universal Links
-        let branchHandled = Branch.getInstance().continue(userActivity)
-        
-        // Handle Capacitor URLs
-        let capacitorHandled = ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
-        
-        return branchHandled || capacitorHandled
-    }
+    // Opened URLs and universal links are handled in SceneDelegate under the scene lifecycle.
 }
