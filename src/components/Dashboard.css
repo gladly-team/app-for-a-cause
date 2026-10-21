@@ -10,6 +10,11 @@
   --height: 262px;
 }
 
+/* iOS adds a "Shop for a Cause in Safari" row to the settings sheet. */
+.settings-modal.settings-modal-shop {
+  --height: 318px;
+}
+
 .select-cause-modal {
   --height: 100%;
   --width: 100%;

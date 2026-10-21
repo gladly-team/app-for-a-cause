@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIonRouter, useIonAlert, IonModal, IonContent, IonButton } from "@ionic/react";
 import { AdMob, RewardAdOptions, RewardAdPluginEvents, AdLoadInfo, AdMobRewardItem, AdMobError, AdmobConsentStatus } from "@capacitor-community/admob";
 import { Capacitor } from "@capacitor/core";
 import { Browser } from "@capacitor/browser";
+import { App } from "@capacitor/app";
 import SelectCause from "./SelectCause";
+import ShopExtensionSheet from "./ShopExtensionSheet";
+import { ShopExtensionStatus, getShopExtensionStatus, dismissShopExtensionPromo, isShopExtensionSupported } from "../services/shopExtension";
 import { getUrlPostFix } from "../services/url";
 import { logInfo, logError, logDebug } from "../services/logService";
 import { BranchService } from "../services/branch";
@@ -23,6 +26,47 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
   const youtubeVideoModal = useRef<HTMLIonModalElement>(null);
   const [presentAlert] = useIonAlert();
   const [urlPostFix, setUrlPostFix] = useState<string>("");
+  const [shopSheetOpen, setShopSheetOpen] = useState(false);
+  const [shopStatus, setShopStatus] = useState<ShopExtensionStatus | null>(null);
+
+  // Web views (dashboard and settings iframes) that asked for the Shop for a Cause
+  // status. We push updates to them when it changes so the card and row stay current.
+  const shopStatusListeners = useRef<Set<MessageEventSource>>(new Set());
+
+  //
+  // Re-read the Shop for a Cause extension status and send it to every web view
+  // that has asked for it.
+  //
+  const refreshShopStatus = useCallback(async (): Promise<ShopExtensionStatus> => {
+    const status = await getShopExtensionStatus();
+    setShopStatus(status);
+    shopStatusListeners.current.forEach((source) => {
+      try {
+        (source as Window).postMessage({ action: "shop-extension-status", status }, "*");
+      } catch {
+        // The iframe went away (e.g. the settings sheet closed). Stop sending to it.
+        shopStatusListeners.current.delete(source);
+      }
+    });
+    return status;
+  }, []);
+
+  //
+  // Open the sheet that walks the user through turning on the Safari extension.
+  //
+  const openShopExtensionSheet = () => {
+    modal.current?.dismiss();
+    setShopSheetOpen(true);
+    refreshShopStatus();
+  };
+
+  //
+  // Close the sheet and update the dashboard card (it hides once the extension is on).
+  //
+  const closeShopExtensionSheet = () => {
+    setShopSheetOpen(false);
+    refreshShopStatus();
+  };
 
   // Handle cause selection
   const handleCauseSelect = () => {
@@ -318,6 +362,25 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
         modal.current?.present();
         break;
 
+      // A web view wants to know whether to show the Shop for a Cause card or settings row
+      case "shop-extension-status-request":
+        if (event.source) {
+          shopStatusListeners.current.add(event.source);
+        }
+        refreshShopStatus();
+        break;
+
+      // Open the Shop for a Cause setup sheet (dashboard card or settings row)
+      case "mobile-screen-shop-extension":
+        openShopExtensionSheet();
+        break;
+
+      // User closed the Shop for a Cause card on the dashboard
+      case "shop-extension-promo-dismissed":
+        dismissShopExtensionPromo();
+        refreshShopStatus();
+        break;
+
       // Handle account deletion request
       case "account-delete":
         confirmAccountDeletion();
@@ -466,9 +529,20 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
     // Initialize AdMob
     setupAdMob();
 
+    // The user may turn on the Safari extension in Settings at any time. Re-check
+    // when the app comes back to the foreground so the dashboard card can hide itself.
+    const appStateListener = isShopExtensionSupported()
+      ? App.addListener("appStateChange", ({ isActive }) => {
+          if (isActive) {
+            refreshShopStatus();
+          }
+        })
+      : undefined;
+
     // Cleanup the event listener when the component unmounts
     return () => {
       window.removeEventListener("message", receiveMessage);
+      appStateListener?.then((handle) => handle.remove());
     };
   }, []); // Empty dependency array ensures this runs only once
 
@@ -481,7 +555,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
         style={{ width: "100%", height: "100%" }}
       ></iframe>
 
-      <IonModal ref={modal} initialBreakpoint={1} breakpoints={[0, 1]} className="settings-modal">
+      <IonModal ref={modal} initialBreakpoint={1} breakpoints={[0, 1]} className={`settings-modal ${isShopExtensionSupported() ? "settings-modal-shop" : ""}`}>
         <IonContent>
           {userAccessToken ? (
             <iframe
@@ -516,6 +590,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAccessToken, logOut, onDelete
           )}
         </IonContent>
       </IonModal>
+
+      <ShopExtensionSheet isOpen={shopSheetOpen} status={shopStatus} onDismiss={closeShopExtensionSheet} onRefreshStatus={refreshShopStatus} />
 
       {/* Video Modal */}
       <IonModal ref={youtubeVideoModal} initialBreakpoint={1} breakpoints={[0, 1]} className="youtube-video-modal">
