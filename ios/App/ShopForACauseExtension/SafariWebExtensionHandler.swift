@@ -46,6 +46,9 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             return
         }
 
+        // Lets the app tell the extension is turned on (on iOS before 26.2 there's no API for it).
+        userDefaults.set(Date().timeIntervalSince1970, forKey: "EXTENSION_LAST_SEEN")
+
         let res = NSExtensionItem()
 
         switch type {
